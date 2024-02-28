@@ -1,31 +1,31 @@
-package org.inptdevelopers.reservationservice.entities;
+package org.inptdevelopers.reservationservice.dto;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.inptdevelopers.reservationservice.models.Command;
 import org.inptdevelopers.reservationservice.models.Restaurant;
+import org.inptdevelopers.reservationservice.models.Table;
+import org.inptdevelopers.reservationservice.models.Waiter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@AllArgsConstructor @NoArgsConstructor @Getter @Setter @Builder @ToString
-public class Reservation {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ReservationDTO {
     private Long id;
-    @ElementCollection
-    private List<Long> tableIds;
-    @Transient
     private List<Table> tables;
-    private Long restaurantId;
-    @Transient
     private Restaurant restaurant;
     private Long clientId;
     private Long waiterId;
     private LocalDateTime reservationTime;
     private int numGuests;
-    private Long commandId;
-    @Transient
     private Command command;
     private boolean isCharged;
 }
