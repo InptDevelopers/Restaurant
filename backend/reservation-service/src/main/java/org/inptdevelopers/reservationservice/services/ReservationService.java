@@ -1,5 +1,6 @@
 package org.inptdevelopers.reservationservice.services;
 
+import org.inptdevelopers.reservationservice.dtos.ReservationPageDTO;
 import org.inptdevelopers.reservationservice.entities.Reservation;
 import org.inptdevelopers.reservationservice.dto.ReservationDTO;
 import org.inptdevelopers.reservationservice.exceptions.ReservationNotFoundException;
@@ -16,6 +17,7 @@ public interface ReservationService {
     public ReservationDTO getReservationById(Long id) throws ReservationNotFoundException;
     //public Reservation updateReservation(Long id, Reservation reservation);
     public void chargeReservation(Long id) throws ReservationNotFoundException;
+    public ReservationPageDTO getReservations(Long restaurantId, Long waiterId, Long clientId, int page, int size);
 
 
 }

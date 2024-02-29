@@ -1,8 +1,9 @@
 package org.inptdevelopers.reservationservice.controllers;
 
 import lombok.AllArgsConstructor;
-import org.inptdevelopers.reservationservice.entities.Reservation;
+import lombok.extern.slf4j.Slf4j;
 import org.inptdevelopers.reservationservice.dto.ReservationDTO;
+import org.inptdevelopers.reservationservice.dtos.ReservationPageDTO;
 import org.inptdevelopers.reservationservice.exceptions.ReservationNotFoundException;
 import org.inptdevelopers.reservationservice.services.ReservationServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -14,22 +15,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/reservations")
 @AllArgsConstructor
+@Slf4j
 public class ReservationController {
     private final ReservationServiceImpl reservationService;
 
-    /*@GetMapping
-    public ResponseEntity<List<Reservation>> getAllReservations(
+    @GetMapping
+    public ResponseEntity<ReservationPageDTO> getAllReservations(
+            @RequestParam(required = false) Long restaurantId,
+            @RequestParam(required = false) Long waiterId,
+            @RequestParam(required = false) Long clientId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        List<Reservation> reservations = reservationService.getAllReservations(page, size);
-        return new ResponseEntity<>(reservations, HttpStatus.OK);
-    }*/
-    @GetMapping("/restaurant/{idRestaurant}")
+        ReservationPageDTO reservationPageDTO = reservationService.getReservations(restaurantId, waiterId, clientId, page, size);
+        return new ResponseEntity<>(reservationPageDTO, HttpStatus.OK);
+    }
+    /*@GetMapping("/restaurant/{idRestaurant}")
     public ResponseEntity<List<ReservationDTO>> getAllReservationsByRestaurantId(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-                @PathVariable Long idRestaurant) {
+            @PathVariable Long idRestaurant) {
         List<ReservationDTO> reservations = reservationService.getAllReservationsByRestaurantId(idRestaurant,page, size);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
@@ -50,7 +55,7 @@ public class ReservationController {
             @PathVariable Long idWaiter) {
         List<ReservationDTO> reservations = reservationService.getAllReservationsByRestaurantId(idWaiter,page, size);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
-    }
+    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<ReservationDTO> getReservationById(@PathVariable Long id) {
