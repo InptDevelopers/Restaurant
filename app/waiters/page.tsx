@@ -1,8 +1,8 @@
 import React from 'react';
-import {Accounts} from '@/components/accounts';
+import {Waiters} from '@/components/waiters';
 
 const accounts = () => {
-   return <Accounts />;
+   return <Waiters />;
 };
 
 export default accounts;
