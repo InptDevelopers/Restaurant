@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -21,7 +21,7 @@ import {PlusIcon} from "./PlusIcon";
 import {VerticalDotsIcon} from "./VerticalDotsIcon";
 import {SearchIcon} from "./SearchIcon";
 import {ChevronDownIcon} from "./ChevronDownIcon";
-import {columns, users, statusOptions} from "./data";
+import {columns,statusOptions} from "./data";
 import {capitalize} from "./utils";
 import axios from "axios";
 
@@ -31,20 +31,23 @@ const statusColorMap = {
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["id", "nom","description","address","idOwner","status", "status", "actions"];
 
 export default function TableWrapper() {
+  
+  const [added,setAdded]=useState(false);
+    useEffect(()=>{
+        const getRestaurant=async ()=>{
+            const res=await axios.get("http://192.168.40.183:8080/api/v1/restaurants")
+            setUsers(res.data)
+        }
+        getRestaurant()
+        setAdded(false)
+    },[added])
 
-    // useEffect(()=>{
-    //     const getDevices=async ()=>{
-    //         const res=await axios.get("")
-    //         setUsers(res.data)
-    //     }c
-    //     getDevices()
-    // },[])
+    const [users, setUsers] = React.useState("");
 
-    // const [users, setUsers] = React.useState("");
-
+  
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -243,7 +246,7 @@ export default function TableWrapper() {
               </DropdownMenu>
             </Dropdown>
             
-            <Modal/>
+            <Modal setAdded={setAdded}/>
           </div>
         </div>
         <div className="flex justify-between items-center">
