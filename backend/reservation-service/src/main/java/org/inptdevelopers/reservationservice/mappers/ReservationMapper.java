@@ -40,6 +40,13 @@ public class ReservationMapper {
     public Reservation fromReservationDTO(ReservationDTO reservationDTO) {
         Reservation reservation = new Reservation();
         BeanUtils.copyProperties(reservationDTO, reservation);
+        reservation.setCommandId(reservationDTO.getCommand().getId());
+        List<Long> tablesIds = new ArrayList<>();
+        reservationDTO.getTables().forEach((table -> {
+            tablesIds.add(table.getId());
+        }));
+        reservation.setTableIds(tablesIds);
+        reservation.setRestaurantId(reservationDTO.getRestaurant().getId());
         return reservation;
     }
 

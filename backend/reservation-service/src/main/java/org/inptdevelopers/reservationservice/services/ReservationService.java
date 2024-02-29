@@ -18,6 +18,4 @@ public interface ReservationService {
     //public Reservation updateReservation(Long id, Reservation reservation);
     public void chargeReservation(Long id) throws ReservationNotFoundException;
     public ReservationPageDTO getReservations(Long restaurantId, Long waiterId, Long clientId, int page, int size);
-
-
 }
