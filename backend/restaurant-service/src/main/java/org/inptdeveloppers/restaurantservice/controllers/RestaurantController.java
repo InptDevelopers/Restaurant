@@ -1,6 +1,7 @@
 package org.inptdeveloppers.restaurantservice.controllers;
 
 import lombok.AllArgsConstructor;
+import org.inptdeveloppers.restaurantservice.DTOS.RestaurantDTO;
 import org.inptdeveloppers.restaurantservice.entities.Restaurant;
 import org.inptdeveloppers.restaurantservice.exceptions.RestaurantNotFoundException;
 import org.inptdeveloppers.restaurantservice.services.RestaurantService;
@@ -9,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 @RestController
 @AllArgsConstructor
@@ -37,10 +40,10 @@ private final RestaurantService restaurantService;
     }
 
 @GetMapping("/restaurants")
-    public ResponseEntity<List<Restaurant>> geRestaurants(@RequestParam(required = false) String nom,
-                                                          @RequestParam(defaultValue = "0") int page,
-                                                          @RequestParam(defaultValue = "10") int size){
-    List<Restaurant> restaurants=restaurantService.getAllRestaurants(nom,page,size);
+    public ResponseEntity<List<RestaurantDTO>> geRestaurants(@RequestParam(required = false) String nom,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "10") int size){
+    List<RestaurantDTO> restaurants=restaurantService.getAllRestaurants(nom,page,size);
     return new ResponseEntity<>(restaurants,HttpStatus.OK);
 }
 @PostMapping("/restaurants")
@@ -53,4 +56,5 @@ private final RestaurantService restaurantService;
     restaurantService.deleteRestaurant(id);
     return new ResponseEntity(HttpStatus.OK);
 }
+  
 }

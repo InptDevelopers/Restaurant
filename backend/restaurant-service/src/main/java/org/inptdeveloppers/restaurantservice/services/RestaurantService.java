@@ -4,17 +4,20 @@ import lombok.AllArgsConstructor;
 import org.inptdeveloppers.restaurantservice.DTOS.RestaurantDTO;
 import org.inptdeveloppers.restaurantservice.exceptions.RestaurantNotFoundException;
 import org.inptdeveloppers.restaurantservice.entities.Restaurant;
+import org.inptdeveloppers.restaurantservice.mappers.RestaurantMapper;
 import org.inptdeveloppers.restaurantservice.repositories.RestaurantRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
 public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
+    private  final RestaurantMapper restaurantMapper;
 
     public void createRestaurant(Restaurant restaurant) {
 
@@ -26,7 +29,7 @@ public class RestaurantService {
     }
 
     // Read
-    public List<Restaurant> getAllRestaurants(String nom, int page, int size) {
+    public List<RestaurantDTO> getAllRestaurants(String nom, int page, int size) {
         Page<Restaurant> restaurantsPage;
 
         if (nom == null) {
@@ -35,9 +38,12 @@ public class RestaurantService {
             restaurantsPage = restaurantRepository.findByNom(nom, PageRequest.of(page, size));
         }
         List<Restaurant> restaurantList = restaurantsPage.getContent();
-return restaurantList;
 
+        List<RestaurantDTO> restaurantDTOList = restaurantList.stream()
+                .map(restaurantMapper::fromrestaurant)  // Corrected this line
+                .collect(Collectors.toList());
 
+return  restaurantDTOList;
     }
     public void updateRestaurant(Long id, Restaurant updatedRestaurant) throws RestaurantNotFoundException {
         Restaurant existingRestaurant = restaurantRepository.findById(id)

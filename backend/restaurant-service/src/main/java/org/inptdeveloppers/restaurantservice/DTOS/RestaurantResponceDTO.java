@@ -14,5 +14,5 @@ public class RestaurantResponceDTO {
     private int currentPage;
     private int totalPages;
     private int pageSize;
-    private List<Restaurant>  restaurants;
+    private List<RestaurantDTO>  restaurantsdto;
 }
