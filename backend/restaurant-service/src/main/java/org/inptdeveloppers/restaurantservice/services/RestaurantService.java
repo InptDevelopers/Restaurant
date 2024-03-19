@@ -2,6 +2,7 @@ package org.inptdeveloppers.restaurantservice.services;
 
 import lombok.AllArgsConstructor;
 import org.inptdeveloppers.restaurantservice.DTOS.RestaurantDTO;
+import org.inptdeveloppers.restaurantservice.DTOS.RestaurantResponceDTO;
 import org.inptdeveloppers.restaurantservice.exceptions.RestaurantNotFoundException;
 import org.inptdeveloppers.restaurantservice.entities.Restaurant;
 import org.inptdeveloppers.restaurantservice.mappers.RestaurantMapper;
@@ -29,7 +30,7 @@ public class RestaurantService {
     }
 
     // Read
-    public List<RestaurantDTO> getAllRestaurants(String nom, int page, int size) {
+    public RestaurantResponceDTO getAllRestaurants(String nom, int page, int size) {
         Page<Restaurant> restaurantsPage;
 
         if (nom == null) {
@@ -42,8 +43,13 @@ public class RestaurantService {
         List<RestaurantDTO> restaurantDTOList = restaurantList.stream()
                 .map(restaurantMapper::fromrestaurant)  // Corrected this line
                 .collect(Collectors.toList());
+        RestaurantResponceDTO response=new RestaurantResponceDTO();
+        response.setRestaurantsdto(restaurantDTOList);
+        response.setCurrentPage(page);
+        response.setTotalPages(restaurantsPage.getTotalPages());
+        response.setPageSize(restaurantsPage.getSize());
 
-return  restaurantDTOList;
+return  response;
     }
     public void updateRestaurant(Long id, Restaurant updatedRestaurant) throws RestaurantNotFoundException {
         Restaurant existingRestaurant = restaurantRepository.findById(id)

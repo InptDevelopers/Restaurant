@@ -2,6 +2,7 @@ package org.inptdeveloppers.restaurantservice.controllers;
 
 import lombok.AllArgsConstructor;
 import org.inptdeveloppers.restaurantservice.DTOS.RestaurantDTO;
+import org.inptdeveloppers.restaurantservice.DTOS.RestaurantResponceDTO;
 import org.inptdeveloppers.restaurantservice.entities.Restaurant;
 import org.inptdeveloppers.restaurantservice.exceptions.RestaurantNotFoundException;
 import org.inptdeveloppers.restaurantservice.services.RestaurantService;
@@ -40,10 +41,10 @@ private final RestaurantService restaurantService;
     }
 
 @GetMapping("/restaurants")
-    public ResponseEntity<List<RestaurantDTO>> geRestaurants(@RequestParam(required = false) String nom,
+    public ResponseEntity<RestaurantResponceDTO> geRestaurants(@RequestParam(required = false) String nom,
                                                              @RequestParam(defaultValue = "0") int page,
                                                              @RequestParam(defaultValue = "10") int size){
-    List<RestaurantDTO> restaurants=restaurantService.getAllRestaurants(nom,page,size);
+   RestaurantResponceDTO restaurants=restaurantService.getAllRestaurants(nom,page,size);
     return new ResponseEntity<>(restaurants,HttpStatus.OK);
 }
 @PostMapping("/restaurants")
