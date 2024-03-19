@@ -6,9 +6,10 @@ import "../styles/restau-list.css";
 const RestauList = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const pageNumbers = [];
   const [id, setId] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(4);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,6 +32,9 @@ const RestauList = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  for (let i = 0; i <= totalPages - 1; i++) {
+    pageNumbers.push(i);
+  }
 
   return (
     <div className="main-container">
@@ -39,9 +43,12 @@ const RestauList = () => {
       <nav>
         <ul className="pagination">
           {pageNumbers.map((number) => (
-            <li key={number} className="page-item">
+            <li
+              key={number}
+              className={`page-item ${number === currentPage ? "active" : ""}`}
+            >
               <button
-                onClick={() => onPageChange(number)}
+                onClick={() => handlePageChange(number)}
                 className="page-link"
               >
                 {number}
