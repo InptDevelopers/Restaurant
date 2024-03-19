@@ -84,3 +84,13 @@ tbody tr:hover {
   background-color: #cccccc; /* Grey when disabled */
   cursor: not-allowed;
 }
+.add button svg {
+  margin-top: 0.1rem;
+  margin-right: 0.1rem;
+}
+.table-row :hover {
+  background-color: #6f860b;
+}
+.trash {
+  color: red;
+}

@@ -1,26 +1,18 @@
 // RestaurantForm.js
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../styles/restaurantform.css";
 
-const RestaurantForm = () => {
-  const [showForm, setShowForm] = useState(false);
-  const formRef = useRef(null);
-
-  const handleClickOutside = (e) => {
-    if (formRef.current && !formRef.current.contains(e.target)) {
-      setShowForm(false);
-    }
-  };
-
-  const toggleForm = () => {
-    setShowForm(!showForm);
-  };
+const RestaurantForm = ({ show }) => {
   const [formData, setFormData] = useState({
     nom: "",
     address: "",
     description: "",
   });
+  const showform = () => {
+    show();
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -32,7 +24,6 @@ const RestaurantForm = () => {
     console.log(formData);
     e.preventDefault();
 
-    // Assuming your backend API endpoint is '/api/restaurants'
     const response = await fetch("http://localhost:8080/api/v1/restaurants", {
       method: "POST",
       headers: {
@@ -42,21 +33,18 @@ const RestaurantForm = () => {
     });
 
     if (response.ok) {
-      // Handle success, e.g., show a success message
       console.log("Form submitted successfully");
-      // Optionally, you can close the form after successful submission
-      setShowForm(false);
     } else {
-      // Handle error, e.g., show an error message
       console.error("Form submission failed");
     }
+    window.location.reload();
   };
 
   return (
-    <div className="restaurant-form" ref={formRef}>
+    <div className="restaurant-form">
       <div className="form-header">
         <h2>Add New Restaurant</h2>
-        <button onClick={toggleForm} className="close-button">
+        <button className="close-button" onClick={showform}>
           Close
         </button>
       </div>
@@ -89,7 +77,7 @@ const RestaurantForm = () => {
 
         <div className="form-actions">
           <button type="submit">Submit</button>
-          <button className="close-button" type="button" onClick={toggleForm}>
+          <button className="close-button" type="button">
             Close
           </button>
         </div>
