@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/zones")
+@CrossOrigin("*")
 @AllArgsConstructor
 public class ZoneController {
 
@@ -82,7 +83,7 @@ public class ZoneController {
     @GetMapping("/")
     public ResponseEntity<Page<ZoneDTO>> getAllZonesByRestaurantId(
                                                                    @RequestParam(defaultValue = "0") int page,
-                                                                   @RequestParam(defaultValue = "10") int size
+                                                                   @RequestParam(defaultValue = "100") int size
                                                                    ,  @RequestParam(defaultValue = "10") Long restaurantId
                                                                    ) {
         Page<ZoneDTO> zones = zoneService.getAllZonesByRestaurantId(restaurantId,page,size);
