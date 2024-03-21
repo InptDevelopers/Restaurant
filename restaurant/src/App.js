@@ -1,13 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import PaginationComponent from "./components/restaurant";
-import RestauList from "./components/restaurantclient";
+import TableList from "./components/TableList";
+
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<RestauList />} />
+        <Route path="/" element={<TableList />} />
       </Routes>
     </Router>
   );
