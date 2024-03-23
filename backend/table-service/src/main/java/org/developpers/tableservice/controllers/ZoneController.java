@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/zones")
 @CrossOrigin("*")
+
 @AllArgsConstructor
 public class ZoneController {
 
@@ -42,12 +43,16 @@ public class ZoneController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteZone(@PathVariable Long id) {
+    public ResponseEntity deleteZone(@PathVariable Long id,  @RequestParam(required = false, defaultValue = "false") Boolean forceDelete) {
         try {
-            zoneService.deleteZone(id);
+            zoneService.deleteZone(id,forceDelete);
             return ResponseEntity.noContent().build();
-        } catch (ZoneNotFoundException | ZoneNotEmpty e) {
+        } catch (ZoneNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        catch (ZoneNotEmpty e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+
         }
     }
 
@@ -62,9 +67,9 @@ public class ZoneController {
     }
 
     @PostMapping("/{zoneId}/tables")
-    public ResponseEntity addTableToZone(@PathVariable Long zoneId, @RequestBody TableDTO tableDTO) {
+    public ResponseEntity addTableToZone(@PathVariable Long zoneId) {
         try {
-            TableDTO addedTable = zoneService.addTableToZone(zoneId, tableDTO);
+            TableDTO addedTable = zoneService.addTableToZone(zoneId);
             return new ResponseEntity(addedTable, HttpStatus.CREATED);
         } catch (ZoneNotFoundException | ZoneIsFull e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -84,9 +89,11 @@ public class ZoneController {
     public ResponseEntity<Page<ZoneDTO>> getAllZonesByRestaurantId(
                                                                    @RequestParam(defaultValue = "0") int page,
                                                                    @RequestParam(defaultValue = "100") int size
-                                                                   ,  @RequestParam(defaultValue = "10") Long restaurantId
+                                                                   ,  @RequestParam Long restaurantId
                                                                    ) {
         Page<ZoneDTO> zones = zoneService.getAllZonesByRestaurantId(restaurantId,page,size);
         return ResponseEntity.ok(zones);
     }
+
+
 }

@@ -1,5 +1,6 @@
 package org.developpers.tableservice.dtos;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 import java.util.List;

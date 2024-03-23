@@ -1,10 +1,12 @@
 package org.developpers.tableservice.services;
 
+
 import lombok.AllArgsConstructor;
 import org.developpers.tableservice.dtos.TableDTO;
 import org.developpers.tableservice.dtos.ZoneDTO;
 import org.developpers.tableservice.entities.ATable;
 import org.developpers.tableservice.entities.Zone;
+import org.developpers.tableservice.enums.TableStatus;
 import org.developpers.tableservice.exceptions.ZoneIsFull;
 import org.developpers.tableservice.exceptions.ZoneNotEmpty;
 import org.developpers.tableservice.exceptions.ZoneNotFoundException;
@@ -13,11 +15,13 @@ import org.developpers.tableservice.mappers.ZoneMapper;
 import org.developpers.tableservice.repositories.TableRepository;
 import org.developpers.tableservice.repositories.ZoneRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,14 +48,24 @@ public class ZoneService implements ZoneServiceInterface {
     }
 
     @Override
-    public void deleteZone(Long id) throws ZoneNotFoundException, ZoneNotEmpty{
+    public void deleteZone(Long id,Boolean forceDelete) throws ZoneNotFoundException, ZoneNotEmpty{
         Zone zone = zoneRepository.findById(id)
                 .orElseThrow(() -> new ZoneNotFoundException("Zone not found with id: " + id));
 
-        if(!zone.getTables().isEmpty()){
-            throw new ZoneNotEmpty("Zone not empty with id + "+id+" , you must transfer it's tables to another zone");
+
+        if(!zone.getTables().isEmpty() && !forceDelete){
+            throw new ZoneNotEmpty("Zone not empty with id  "+id);
         }
+        deleteAllTablesZone(zone.getId());
         zoneRepository.delete(zone);
+    }
+    @Override
+    public void deleteAllTablesZone(Long id) throws ZoneNotFoundException{
+        Zone zone = zoneRepository.findById(id)
+                .orElseThrow(() -> new ZoneNotFoundException("Zone not found with id: " + id));
+
+        List<ATable> tables = zone.getTables();
+       tables.forEach(aTable -> tableRepository.deleteById(aTable.getId()));
     }
 
     @Override
@@ -65,13 +79,14 @@ public class ZoneService implements ZoneServiceInterface {
     }
 
     @Override
-    public TableDTO addTableToZone(Long zoneId, TableDTO tableDTO) throws ZoneNotFoundException, ZoneIsFull{
+    public TableDTO addTableToZone(Long zoneId) throws ZoneNotFoundException, ZoneIsFull{
         Zone zone = zoneRepository.findById(zoneId)
                 .orElseThrow(() -> new ZoneNotFoundException("Zone not found with id: " + zoneId));
         if(zone.getTables().size()==zone.getMaxSize()){
            throw new ZoneIsFull("Zone is full with id: " + zoneId) ;
         }
-        ATable table = tableMapper.fromTableDTO(tableDTO);
+        ATable table = new ATable();
+        table.setStatus(TableStatus.NOT_OCCUPIED);
         table.setZone(zone);
         ATable savedTable = tableRepository.save(table);
         return tableMapper.fromTable(savedTable);
@@ -86,4 +101,7 @@ public class ZoneService implements ZoneServiceInterface {
         return zones.map(zoneMapper::fromZone) ;
 
     }
+
+
+
 }
