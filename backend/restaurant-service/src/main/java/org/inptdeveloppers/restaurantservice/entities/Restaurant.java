@@ -20,6 +20,7 @@ public class Restaurant {
     private String description;
     private String address;
     private Long idOwner;
+
     @Transient
     private Admin admin;
 
@@ -27,8 +28,8 @@ public class Restaurant {
     private List<Long> idZones;
     @ElementCollection
     private List<Long> idReservation;
-
-
+@OneToOne(mappedBy = "restaurant")
+private Menu menu;
 
 
 }

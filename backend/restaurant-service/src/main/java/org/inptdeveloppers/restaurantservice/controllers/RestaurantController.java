@@ -52,10 +52,18 @@ private final RestaurantService restaurantService;
     restaurantService.createRestaurant(restaurant);
     return new ResponseEntity<>(HttpStatus.CREATED);
 }
+
 @DeleteMapping("/restaurants/{id}")
     public ResponseEntity deleteRestaurant(@PathVariable Long id){
     restaurantService.deleteRestaurant(id);
     return new ResponseEntity(HttpStatus.OK);
 }
-  
+
+    @GetMapping("/restaurants/admin/{id}")
+    public ResponseEntity<RestaurantResponceDTO> geRestaurantsAdmin(@RequestParam(required = false) String nom,
+                                                               @RequestParam(defaultValue = "0") int page,
+                                                               @RequestParam(defaultValue = "10") int size,@PathVariable long id){
+        RestaurantResponceDTO restaurants=restaurantService.getAllRestaurantsofAdmin(nom,page,size,id);
+        return new ResponseEntity<>(restaurants,HttpStatus.OK);
+    }
 }

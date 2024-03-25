@@ -51,6 +51,28 @@ public class RestaurantService {
 
 return  response;
     }
+    public RestaurantResponceDTO getAllRestaurantsofAdmin(String nom, int page, int size,Long id) {
+        Page<Restaurant> restaurantsPage;
+
+        if (nom == null) {
+            restaurantsPage = restaurantRepository.findAllByIdOwner(id,PageRequest.of(page, size));
+        } else {
+            restaurantsPage = restaurantRepository.findByNomAndIdOwner(nom, PageRequest.of(page, size),id);
+        }
+        List<Restaurant> restaurantList = restaurantsPage.getContent();
+
+        List<RestaurantDTO> restaurantDTOList = restaurantList.stream()
+                .map(restaurantMapper::fromrestaurant)  // Corrected this line
+                .collect(Collectors.toList());
+        RestaurantResponceDTO response=new RestaurantResponceDTO();
+        response.setRestaurantsdto(restaurantDTOList);
+        response.setCurrentPage(page);
+        response.setTotalPages(restaurantsPage.getTotalPages());
+        response.setPageSize(restaurantsPage.getSize());
+
+        return  response;
+    }
+
     public void updateRestaurant(Long id, Restaurant updatedRestaurant) throws RestaurantNotFoundException {
         Restaurant existingRestaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException("Restaurant not found with id: " + id));
