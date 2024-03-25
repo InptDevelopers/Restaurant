@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/restaurant.css";
+import RestaurantListAdmin from "./Restau-listadmin.js";
+import Navbar from "./navbar.js";
+import "../styles/restau-list.css";
 import ConfirmationPopup from "./delete.js";
 import RestaurantForm from "./restaurantform";
+import RestaurantAdmin from "./box2.js";
 const PaginationComponent = () => {
-  const [restaurants, setRestaurants] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const [showForm, setShowForm] = useState(true);
   const [show, setShow] = useState(false);
+  const [restaurants, setRestaurants] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const pageNumbers = [];
   const [id, setId] = useState(null);
   const toggleForm = () => {
     console.log("Toggling form visibility");
@@ -51,7 +55,7 @@ const PaginationComponent = () => {
         setTotalPages(response.data.totalPages);
         setPageSize(response.data.pageSize);
 
-        console.log(response.data.restaurantsdto);
+        console.log(response.data.totalPages);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -63,8 +67,13 @@ const PaginationComponent = () => {
     setCurrentPage(pageNumber);
   };
 
+  for (let i = 0; i <= totalPages - 1; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div>
+      <Navbar></Navbar>
       <div className="head">My restaurants</div>
       <div className="add">
         <button onClick={toggleForm}>
@@ -84,63 +93,27 @@ const PaginationComponent = () => {
       </div>
 
       <div>{show && <RestaurantForm show={close} />}</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Adress</th>
-            <th>Description</th>
-            <th></th>
-            {/* Include other headers based on your data structure */}
-          </tr>
-        </thead>
-        <tbody className="table-row">
-          {restaurants.map((restaurant) => (
-            <tr key={restaurant.id}>
-              <td>{restaurant.nom}</td>
-              <td>{restaurant.address}</td>
-              <td>{restaurant.description}</td>
-              <td onClick={() => handleDelete(restaurant.id)} className="trash">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-trash"
-                  viewBox="0 0 16 16"
+      <div className="main-container">
+        <RestaurantListAdmin restaurants={restaurants} />
+        <nav>
+          <ul className="pagination">
+            {pageNumbers.map((number) => (
+              <li
+                key={number}
+                className={`page-item ${
+                  number === currentPage ? "active" : ""
+                }`}
+              >
+                <button
+                  onClick={() => handlePageChange(number)}
+                  className="page-link"
                 >
-                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                </svg>
-              </td>
-              {/* Include other data cells based on your data structure */}
-            </tr>
-          ))}
-          {showConfirmation && (
-            <ConfirmationPopup
-              onConfirm={handleConfirmDelete}
-              onCancel={handleCancelDelete}
-              id={id}
-            />
-          )}
-        </tbody>
-      </table>
-      <div className="pagination">
-        <button
-          className="pagination-button"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage + 1 === 1}
-        >
-          Previous
-        </button>
-        <span>{currentPage + 1}</span> / <span>{totalPages}</span>
-        <button
-          className="pagination-button"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage + 1 === totalPages}
-        >
-          Next
-        </button>
+                  {number}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </div>
   );

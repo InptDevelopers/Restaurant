@@ -45,12 +45,8 @@
   flex-wrap: wrap;
   justify-content: space-evenly; /* Allow wrapping to next line */
   gap: 20px; /* Spacing between restaurants */
-  transition: 1s ease-in-out;
 }
 
-.restaurant-list :hover {
-  transform: scale(1.02);
-}
 .choose {
   background-color: black;
   color: #6f860b;
@@ -84,4 +80,30 @@
 
 .page-item.active .page-link {
   background-color: #6f860b; /* Set a different background color for the active page */
+}
+.buttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.choose2 {
+  color: white;
+  padding: 1rem;
+  background-color: red;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.choose3 {
+  color: white;
+  background-color: blue;
+  padding: 1rem;
+
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.popup {
+  display: flex;
+  justify-content: center;
 }

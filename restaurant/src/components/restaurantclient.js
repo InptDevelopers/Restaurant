@@ -38,7 +38,7 @@ const RestauList = () => {
 
   return (
     <div className="main-container">
-      <h1>Restaurant List</h1>
+      <h1>Discover all the restaurants</h1>
       <RestaurantList restaurants={restaurants} />
       <nav>
         <ul className="pagination">
