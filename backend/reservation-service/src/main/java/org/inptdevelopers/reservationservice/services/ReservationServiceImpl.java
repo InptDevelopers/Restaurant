@@ -2,8 +2,9 @@ package org.inptdevelopers.reservationservice.services;
 
 import lombok.AllArgsConstructor;
 import org.inptdevelopers.reservationservice.dtos.ReservationPageDTO;
+import org.inptdevelopers.reservationservice.dtos.ReservationRequestDTO;
 import org.inptdevelopers.reservationservice.entities.Reservation;
-import org.inptdevelopers.reservationservice.dto.ReservationDTO;
+import org.inptdevelopers.reservationservice.dtos.ReservationDTO;
 import org.inptdevelopers.reservationservice.exceptions.ReservationNotFoundException;
 import org.inptdevelopers.reservationservice.mappers.ReservationMapper;
 import org.inptdevelopers.reservationservice.repositories.ReservationRepository;
@@ -57,8 +58,8 @@ public class ReservationServiceImpl implements ReservationService{
         return reservationMapper.fromReservation(reservation);
     }
 
-    public ReservationDTO createReservation(ReservationDTO reservationDTO) {
-        Reservation reservation = reservationMapper.fromReservationDTO(reservationDTO);
+    public ReservationDTO createReservation(ReservationRequestDTO reservationDTO) {
+        Reservation reservation = reservationMapper.fromReservationRequestDTO(reservationDTO);
         Reservation createdReservation = reservationRepository.save(reservation);
         return reservationMapper.fromReservation(createdReservation);
     }
@@ -68,14 +69,16 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
-    public void chargeReservation(Long id) throws ReservationNotFoundException {
+    public ReservationDTO chargeReservation(Long id) throws ReservationNotFoundException {
         Reservation reservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new ReservationNotFoundException("Reservation not found with id: "+ id));
-
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation not found with id: " + id));
+        reservation.setCharged(true);;
+        reservationRepository.save(reservation);
+        return reservationMapper.fromReservation(reservation);
     }
 
 
-    @Override
+    /* @Override
     public ReservationPageDTO getReservations(Long restaurantId, Long waiterId, Long clientId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Reservation> reservationPage;
@@ -97,6 +100,59 @@ public class ReservationServiceImpl implements ReservationService{
         } else {
             throw new IllegalArgumentException("At least one parameter must be provided.");
         }
+
+        List<ReservationDTO> reservationDTOs = reservationPage.getContent().stream()
+                .map(reservation -> reservationMapper.fromReservation(reservation))
+                .collect(Collectors.toList());
+
+        return new ReservationPageDTO(reservationDTOs, page, size, reservationPage.getTotalElements());
+    }
+    */
+
+    @Override
+    public ReservationPageDTO getReservations(Long restaurantId, Long waiterId, Long clientId, Boolean isCharged, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Reservation> reservationPage;
+
+        if(isCharged != null) {
+            if (restaurantId != null && waiterId != null && clientId != null) {
+                reservationPage = reservationRepository.findByRestaurantIdAndWaiterIdAndClientIdAndIsCharged(restaurantId, waiterId, clientId, isCharged, pageable);
+            } else if (restaurantId != null && waiterId != null) {
+                reservationPage = reservationRepository.findByRestaurantIdAndWaiterIdAndIsCharged(restaurantId, waiterId, isCharged, pageable);
+            } else if (restaurantId != null && clientId != null) {
+                reservationPage = reservationRepository.findByRestaurantIdAndClientIdAndIsCharged(restaurantId, clientId, isCharged, pageable);
+            } else if (waiterId != null && clientId != null) {
+                reservationPage = reservationRepository.findByWaiterIdAndClientIdAndIsCharged(waiterId, clientId, isCharged, pageable);
+            } else if (restaurantId != null) {
+                reservationPage = reservationRepository.findByRestaurantIdAndIsCharged(restaurantId, isCharged, pageable);
+            } else if (waiterId != null) {
+                reservationPage = reservationRepository.findByWaiterIdAndIsCharged(waiterId, isCharged, pageable);
+            } else if (clientId != null) {
+                reservationPage = reservationRepository.findByClientIdAndIsCharged(clientId, isCharged, pageable);
+            } else {
+                throw new IllegalArgumentException("At least one parameter must be provided.");
+            }
+        } else {
+            if (restaurantId != null && waiterId != null && clientId != null) {
+                reservationPage = reservationRepository.findByRestaurantIdAndWaiterIdAndClientId(restaurantId, waiterId, clientId, pageable);
+            } else if (restaurantId != null && waiterId != null) {
+                reservationPage = reservationRepository.findByRestaurantIdAndWaiterId(restaurantId, waiterId, pageable);
+            } else if (restaurantId != null && clientId != null) {
+                reservationPage = reservationRepository.findByRestaurantIdAndClientId(restaurantId, clientId, pageable);
+            } else if (waiterId != null && clientId != null) {
+                reservationPage = reservationRepository.findByWaiterIdAndClientId(waiterId, clientId, pageable);
+            } else if (restaurantId != null) {
+                reservationPage = reservationRepository.findByRestaurantId(restaurantId, pageable);
+            } else if (waiterId != null) {
+                reservationPage = reservationRepository.findByWaiterId(waiterId, pageable);
+            } else if (clientId != null) {
+                reservationPage = reservationRepository.findByClientId(clientId, pageable);
+            } else {
+                throw new IllegalArgumentException("At least one parameter must be provided.");
+            }
+        }
+
+        
 
         List<ReservationDTO> reservationDTOs = reservationPage.getContent().stream()
                 .map(reservation -> reservationMapper.fromReservation(reservation))

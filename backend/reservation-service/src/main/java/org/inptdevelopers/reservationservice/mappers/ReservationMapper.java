@@ -1,9 +1,10 @@
 package org.inptdevelopers.reservationservice.mappers;
-import org.inptdevelopers.reservationservice.dto.ReservationDTO;
+import org.inptdevelopers.reservationservice.dtos.ReservationDTO;
+import org.inptdevelopers.reservationservice.dtos.ReservationRequestDTO;
 import org.inptdevelopers.reservationservice.entities.Reservation;
 import org.inptdevelopers.reservationservice.models.Command;
 import org.inptdevelopers.reservationservice.models.Restaurant;
-import org.inptdevelopers.reservationservice.models.Table;
+import org.inptdevelopers.reservationservice.models.ATable;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +22,10 @@ public class ReservationMapper {
             reservationDTO.setRestaurant(restaurant);
         }
         if(reservationDTO.getTables() == null) {
-            List<Table> tables = new ArrayList<>();
+            List<ATable> tables = new ArrayList<>();
             reservationDTO.setTables(tables);
             reservation.getTableIds().forEach(tableId -> {
-                Table table = new Table();
+                ATable table = new ATable();
                 table.setId(tableId);
                 reservationDTO.getTables().add(table);
             });
@@ -47,6 +48,19 @@ public class ReservationMapper {
         }));
         reservation.setTableIds(tablesIds);
         reservation.setRestaurantId(reservationDTO.getRestaurant().getId());
+        return reservation;
+    }
+
+
+    public ReservationRequestDTO fromReservationToReservationRequest(Reservation reservation) {
+        ReservationRequestDTO reservationRequestDTO = new ReservationRequestDTO();
+        BeanUtils.copyProperties(reservation, reservationRequestDTO);
+        return reservationRequestDTO; 
+    }
+
+    public Reservation fromReservationRequestDTO(ReservationRequestDTO reservationRequestDTO) {
+        Reservation reservation = new Reservation();
+        BeanUtils.copyProperties(reservationRequestDTO, reservation);
         return reservation;
     }
 

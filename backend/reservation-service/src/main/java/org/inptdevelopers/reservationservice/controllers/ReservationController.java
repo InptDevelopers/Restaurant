@@ -1,21 +1,21 @@
 package org.inptdevelopers.reservationservice.controllers;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.inptdevelopers.reservationservice.dto.ReservationDTO;
+/* import lombok.extern.slf4j.Slf4j; */
+import org.inptdevelopers.reservationservice.dtos.ReservationDTO;
 import org.inptdevelopers.reservationservice.dtos.ReservationPageDTO;
+import org.inptdevelopers.reservationservice.dtos.ReservationRequestDTO;
 import org.inptdevelopers.reservationservice.exceptions.ReservationNotFoundException;
 import org.inptdevelopers.reservationservice.services.ReservationServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/reservations")
 @AllArgsConstructor
-@Slf4j
+@CrossOrigin("*")
+/* @Slf4j */
 public class ReservationController {
     private final ReservationServiceImpl reservationService;
 
@@ -24,10 +24,11 @@ public class ReservationController {
             @RequestParam(required = false) Long restaurantId,
             @RequestParam(required = false) Long waiterId,
             @RequestParam(required = false) Long clientId,
+            @RequestParam(required = false) Boolean isCharged,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        ReservationPageDTO reservationPageDTO = reservationService.getReservations(restaurantId, waiterId, clientId, page, size);
+        ReservationPageDTO reservationPageDTO = reservationService.getReservations(restaurantId, waiterId, clientId, isCharged, page, size);
         return new ResponseEntity<>(reservationPageDTO, HttpStatus.OK);
     }
     /*@GetMapping("/restaurant/{idRestaurant}")
@@ -68,8 +69,8 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservationDTO) {
-        ReservationDTO createdReservationDTO = reservationService.createReservation(reservationDTO);
+    public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationRequestDTO reservationRequestDTO) {
+        ReservationDTO createdReservationDTO = reservationService.createReservation(reservationRequestDTO);
         return new ResponseEntity<>(createdReservationDTO, HttpStatus.CREATED);
     }
 
@@ -77,6 +78,16 @@ public class ReservationController {
     public ResponseEntity<Void> deleteReservation(@PathVariable Long id) {
         reservationService.deleteReservation(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{id}/charge")
+    public ResponseEntity<ReservationDTO> chargeReservation(@PathVariable Long id) {
+        try {
+            ReservationDTO reservation = reservationService.chargeReservation(id);
+            return new ResponseEntity<>(reservation, HttpStatus.ACCEPTED);
+        } catch (ReservationNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     /*@PutMapping("/{id}")

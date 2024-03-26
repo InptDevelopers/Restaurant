@@ -2,6 +2,8 @@ package org.inptdevelopers.reservationservice.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import org.inptdevelopers.reservationservice.models.ATable;
 import org.inptdevelopers.reservationservice.models.Command;
 import org.inptdevelopers.reservationservice.models.Restaurant;
 
@@ -16,7 +18,7 @@ public class Reservation {
     @ElementCollection
     private List<Long> tableIds;
     @Transient
-    private List<Table> tables;
+    private List<ATable> tables;
     private Long restaurantId;
     @Transient
     private Restaurant restaurant;

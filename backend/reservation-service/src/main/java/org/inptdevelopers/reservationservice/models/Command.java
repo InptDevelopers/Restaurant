@@ -1,6 +1,5 @@
 package org.inptdevelopers.reservationservice.models;
 
-import jakarta.persistence.Id;
 import lombok.*;
 
 @Getter
@@ -10,5 +9,4 @@ import lombok.*;
 @NoArgsConstructor
 public class Command {
     private Long id;
-
 }
