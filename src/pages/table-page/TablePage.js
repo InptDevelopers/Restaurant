@@ -1,11 +1,11 @@
 // components/TableList.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import TableComponent from "./TableComponent";
-import ZoneComponent from "./ZoneComponent";
-import "../styles/table.css";
-import ConfirmationPopup from "./ConfirmationPopup";
-const TableList = () => {
+import TableComponent from "../../components/table-components/TableComponent";
+import ZoneComponent from "../../components/table-components/ZoneComponent";
+import "../../styles/table-styles/table.css";
+import ConfirmationPopup from "../../components/table-components/ConfirmationPopup";
+const TablePage = () => {
   const [zones, setZones] = useState([]);
   const [selectedZone, setSelectedZone] = useState(null);
   const [tables, setTables] = useState([]);
@@ -452,4 +452,4 @@ const TableList = () => {
   );
 };
 
-export default TableList;
+export default TablePage;
