@@ -59,6 +59,7 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     public ReservationDTO createReservation(ReservationRequestDTO reservationDTO) {
+        reservationDTO.setCharged(false);
         Reservation reservation = reservationMapper.fromReservationRequestDTO(reservationDTO);
         Reservation createdReservation = reservationRepository.save(reservation);
         return reservationMapper.fromReservation(createdReservation);

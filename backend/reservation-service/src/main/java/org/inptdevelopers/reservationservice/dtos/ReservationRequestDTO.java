@@ -2,7 +2,6 @@ package org.inptdevelopers.reservationservice.dtos;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import org.inptdevelopers.reservationservice.models.Command;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +21,6 @@ public class ReservationRequestDTO {
     private Long waiterId;
     private LocalDateTime reservationTime;
     private int numGuests;
-    private Command command;
+    private Long commandId;
     private boolean isCharged;
 }
