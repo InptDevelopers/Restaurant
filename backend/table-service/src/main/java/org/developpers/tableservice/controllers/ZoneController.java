@@ -3,7 +3,7 @@ package org.developpers.tableservice.controllers;
 import lombok.AllArgsConstructor;
 import org.developpers.tableservice.dtos.TableDTO;
 import org.developpers.tableservice.dtos.ZoneDTO;
-import org.developpers.tableservice.entities.Zone;
+
 import org.developpers.tableservice.exceptions.ZoneIsFull;
 import org.developpers.tableservice.exceptions.ZoneNotEmpty;
 import org.developpers.tableservice.exceptions.ZoneNotFoundException;
@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/zones")
