@@ -133,6 +133,13 @@ const TableList = () => {
 
   const handleAddZone = (e) => {
     e.preventDefault();
+    if (newZone.description.trim() === "") {
+      setErrorMessage("Description cannot be empty.");
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 1000);
+      return;
+    }
     setLoading(true);
     axios
       .post("http://localhost:8080/api/v1/zones", newZone)
@@ -166,6 +173,7 @@ const TableList = () => {
     setNewZone((prev) => {
       return {
         ...prev,
+
         [e.target.id]: e.target.value,
       };
     });

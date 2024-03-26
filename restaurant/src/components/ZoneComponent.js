@@ -1,5 +1,5 @@
 // ZoneComponent.js
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdCancelPresentation, MdDelete } from "react-icons/md";
 import Button from "./Button";
 import { IoMdSave } from "react-icons/io";
@@ -7,6 +7,16 @@ import { AiOutlineForm } from "react-icons/ai";
 
 const ZoneComponent = ({ zone, onClick, onDelete, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
+
+  const inputRefDescription = useRef(null);
+
+  useEffect(() => {
+    if (isEditing) {
+      inputRefDescription.current.focus();
+    } else {
+      inputRefDescription.current.blur();
+    }
+  }, [isEditing]);
   const [updatedZone, setUpdatedZone] = useState({
     description: zone.description,
     maxSize: zone.maxSize,
@@ -52,16 +62,18 @@ const ZoneComponent = ({ zone, onClick, onDelete, onUpdate }) => {
           disabled={!isEditing}
           value={updatedZone.description}
           onChange={handleChange}
+          ref={inputRefDescription}
+          className="bg-transparent"
         />
       </td>
       <td className="px-4 py-2">
-        {" "}
         <input
           type="number"
           name="maxSize"
           disabled={!isEditing}
           value={updatedZone.maxSize}
           onChange={handleChange}
+          className="bg-transparent "
         />
       </td>
       <td className="px-4 py-2 flex gap-2 flex justify-center items-center">
@@ -73,7 +85,10 @@ const ZoneComponent = ({ zone, onClick, onDelete, onUpdate }) => {
         ) : (
           <>
             <Button icon={<AiOutlineForm />} action={handleUpdate} />
-            <Button icon={<MdDelete />} action={handleDelete} />
+            <Button
+              icon={<MdDelete className="text-red-600" />}
+              action={handleDelete}
+            />
           </>
         )}
       </td>
