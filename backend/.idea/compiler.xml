@@ -7,16 +7,25 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="table-service" />
         <module name="restaurant-service" />
-        <module name="Users-Service" />
+        <module name="config-service" />
+        <module name="gateway-service" />
         <module name="reservation-service" />
+        <module name="table-service" />
+        <module name="Users-Service" />
+        <module name="discovery-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="config-repo" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Users-Service" options="-parameters" />
+      <module name="config-service" options="-parameters" />
+      <module name="discovery-service" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
       <module name="reservation-service" options="-parameters" />
       <module name="restaurant-service" options="-parameters" />
       <module name="table-service" options="-parameters" />
