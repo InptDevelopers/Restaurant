@@ -10,7 +10,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<PaginationComponent />} />
+        <Route path="/restaurantadmin" element={<PaginationComponent />} />
+        <Route path="/restaurant" element={<RestauList />} />
         <Route
           path="/restaurant/:id"
           element={<RestaurantDetails></RestaurantDetails>}
