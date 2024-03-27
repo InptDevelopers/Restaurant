@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles/restaurant.css";
-import RestaurantListAdmin from "./Restau-listadmin.js";
-import Navbar from "./navbar.js";
-import "../styles/restau-list.css";
-import ConfirmationPopup from "./delete.js";
-import RestaurantForm from "./restaurantform";
-import RestaurantAdmin from "./box2.js";
+import "../../styles/restaurant.css";
+import RestaurantListAdmin from "../../components/restaurantcomponents/Restau-listadmin.js";
+import Navbar from "../../components/restaurantcomponents/navbar.js";
+import "../../styles/restau-list.css";
+import ConfirmationPopup from "../../components/restaurantcomponents/delete.js";
+import RestaurantForm from "../../components/restaurantcomponents/restaurantform.js";
+import RestaurantAdmin from "../../components/restaurantcomponents/box2.js";
 const PaginationComponent = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize, setPageSize] = useState(5);

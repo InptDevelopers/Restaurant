@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "../styles/navbar.css";
+import "../../styles/navbar.css";
 const Navbar = () => {
   return (
     <nav class="bg-white border-gray-200 dark:bg-gray-900">

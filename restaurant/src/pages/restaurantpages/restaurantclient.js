@@ -1,8 +1,9 @@
 // MainComponent.js
 import React, { useState, useEffect } from "react";
-import RestaurantList from "./Restau-list";
+import RestaurantList from "../../components/restaurantcomponents/Restau-list";
 import axios from "axios";
-import "../styles/restau-list.css";
+import Navbar from "../../components/restaurantcomponents/navbar";
+import "../../styles/restau-list.css";
 const RestauList = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -38,7 +39,9 @@ const RestauList = () => {
 
   return (
     <div className="main-container">
-      <h1>Discover all the restaurants</h1>
+      <Navbar></Navbar>
+      <div className="head">Discover all the restaurants</div>
+
       <RestaurantList restaurants={restaurants} />
       <nav>
         <ul className="pagination">

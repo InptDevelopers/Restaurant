@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../styles/restau-list.css";
+import "../../styles/restau-list.css";
 import ConfirmationPopup from "./delete";
 import { Outlet, Link } from "react-router-dom";
 

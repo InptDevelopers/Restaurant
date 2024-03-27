@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "../styles/menu-details.css";
-import Navbar from "./navbar";
+import "../../styles/menu-details.css";
+import Navbar from "../../components/restaurantcomponents/navbar";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import Restaurant from "./box";
+import MenuCreationForm from "../../components/restaurantcomponents/Menu";
+import Restaurant from "../../components/restaurantcomponents/box";
 const RestaurantDetails = () => {
   const { id } = useParams();
   const [menu, setMenu] = useState(null);
@@ -11,7 +12,11 @@ const RestaurantDetails = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const pageNumbers = [];
   const [totalPages, setTotalPages] = useState(0);
+  const [show, setShow] = useState(false);
   const [pageSize, setPageSize] = useState(4);
+  const close = () => {
+    setShow(false);
+  };
   console.log(id);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -39,7 +44,7 @@ const RestaurantDetails = () => {
     };
 
     fetchMenu();
-  }, [id]);
+  }, [id, currentPage, pageSize]);
 
   return (
     <div>
@@ -81,7 +86,12 @@ const RestaurantDetails = () => {
           </div>
         </div>
       ) : (
-        <button className="Creation">Create your Menu</button>
+        <div>
+          <div>{show && <MenuCreationForm show={close} />}</div>
+          <button className="Creation" onClick={() => setShow(true)}>
+            Create your Menu
+          </button>
+        </div>
       )}
     </div>
   );

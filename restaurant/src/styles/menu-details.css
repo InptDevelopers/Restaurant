@@ -15,6 +15,12 @@ h1 {
 .menu-items {
   padding: 20px;
 }
+.menu-item input {
+  width: 50px;
+  position: absolute; /* Position the counter */
+  top: 10px; /* Adjust the top position */
+  right: 10px; /* Adjust the right position */
+}
 
 .menu-items h2 {
   font-size: 24px;
@@ -91,4 +97,78 @@ h1 {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+/* menu-details.css */
+
+.basket {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.basket:hover {
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+.basket h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.basket ul {
+  list-style: none;
+  padding: 0;
+}
+
+.basket li {
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.basket li:hover {
+  background-color: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+.basket li:last-child {
+  margin-bottom: 0;
+}
+
+.basket li span {
+  font-weight: bold;
+}
+
+.basket li p {
+  margin: 5px 0 0;
+  color: #666;
+}
+.paiement {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  max-width: 200px;
+  margin-bottom: 1rem;
+  background-color: #000000;
+  color: #6f860b;
+  padding: 1rem;
+  margin-top: 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: none;
+}
+.choose2 {
+  background-color: white;
+  display: flex;
+  justify-content: end;
+  border: none;
+  right: 0%;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import "../styles/delete.css";
+import "../../styles/delete.css";
 const ConfirmationPopup = ({ onConfirm, onCancel, id }) => {
   const handleConfirm = () => {
     onConfirm();

@@ -1,6 +1,6 @@
 import React from "react";
-import "../styles/restau-list.css";
-
+import "../../styles/restau-list.css";
+import { Link } from "react-router-dom";
 const Restaurant = ({ restaurant }) => {
   return (
     <div className="restaurant-box">
@@ -34,8 +34,9 @@ const Restaurant = ({ restaurant }) => {
         <p>
           <strong>Description:</strong> {restaurant.description}
         </p>
-
-        <button className="choose">Choose the menu</button>
+        <Link to={`/restaurantclient/${restaurant.id}`}>
+          <button className="choose">Choose the menu</button>
+        </Link>
       </div>
     </div>
   );

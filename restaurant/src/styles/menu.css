@@ -1,0 +1,83 @@
+/* restaurantform.css */
+
+/* restaurantform.css */
+
+.restaurant-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: black;
+}
+
+.form-container {
+  max-height: 300px; /* Adjust this height according to your needs */
+  overflow-y: auto;
+}
+
+.show-form {
+  display: none;
+}
+.restaurant-form .form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.restaurant-form .form-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.restaurant-form .close-button {
+  background-color: #ccc;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.restaurant-form form {
+  display: grid;
+  gap: 10px;
+}
+
+.restaurant-form label {
+  font-weight: bold;
+}
+
+.restaurant-form input,
+.restaurant-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.restaurant-form .form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.restaurant-form button {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.restaurant-form button.close-button {
+  background-color: #ccc;
+  color: black;
+}

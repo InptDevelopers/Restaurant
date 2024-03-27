@@ -1,7 +1,7 @@
 // RestaurantForm.js
 
 import React, { useState, useRef, useEffect } from "react";
-import "../styles/restaurantform.css";
+import "../../styles/restaurantform.css";
 
 const RestaurantForm = ({ show }) => {
   const [formData, setFormData] = useState({

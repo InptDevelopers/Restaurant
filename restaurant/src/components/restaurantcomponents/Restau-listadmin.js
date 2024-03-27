@@ -1,7 +1,7 @@
 // RestaurantList.js
 import React from "react";
 
-import "../styles/restau-list.css";
+import "../../styles/restau-list.css";
 import RestaurantAdmin from "./box2";
 
 const RestaurantListAdmin = ({ restaurants }) => {
