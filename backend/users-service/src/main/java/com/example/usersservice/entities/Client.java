@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 
 @Data
-public class Client extends User{
+public class Client extends AppUser{
 
     @ElementCollection
     private List<Long> reservations=new ArrayList<>();

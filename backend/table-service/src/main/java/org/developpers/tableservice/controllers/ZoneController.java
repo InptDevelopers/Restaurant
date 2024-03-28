@@ -12,6 +12,7 @@ import org.developpers.tableservice.services.ZoneService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -29,6 +30,19 @@ public class ZoneController {
     public ResponseEntity<ZoneDTO> addZone(@RequestBody ZoneDTO zoneDTO) {
         ZoneDTO addedZone = zoneService.addZone(zoneDTO);
         return new ResponseEntity<>(addedZone, HttpStatus.CREATED);
+    }
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    @GetMapping("/test")
+    public String test(){
+            return  "hi admin ";
+    }
+
+    @PreAuthorize("hasAuthority('SCOPE_CLIENT')")
+
+    @GetMapping("/test2")
+    public String test2(){
+
+        return  "hi client ";
     }
 
     @GetMapping("/{id}")

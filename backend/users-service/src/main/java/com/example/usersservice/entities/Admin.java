@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-public class Admin extends User{
+public class Admin extends AppUser{
 
 }

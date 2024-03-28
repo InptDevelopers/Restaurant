@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create User</title>
+  </head>
+  <body>
+    <h1>Create User</h1>
+    <form id="createUserForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required /><br /><br />
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+      /><br /><br />
+      <button type="submit">Create User</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("createUserForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          var username = document.getElementById("username").value;
+          var password = document.getElementById("password").value;
+
+          // Make HTTP POST request to Keycloak Admin API
+          fetch("http://192.168.56.1:8080/admin/realms/ebank-realm/users", {
+            method: "POST",
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJZaHhMVG5ZOVNIdVlqeW1OWXAtX084dEgwQzRmU0Z2SUI1SFF4cm1WYkdrIn0.eyJleHAiOjE3MTE1NTAzODMsImlhdCI6MTcxMTU1MDMyMywiYXV0aF90aW1lIjoxNzExNTQ4NzExLCJqdGkiOiJlMTc5N2NjZC1kMWQ5LTRjMWQtODNhMi1hNDI1ZmIxYmE0OWYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvcmVhbG1zL21hc3RlciIsInN1YiI6IjQzZmNkZjBkLWNiODgtNDlhOC04NzZlLTc5OWI0NmY2M2E4NSIsInR5cCI6IkJlYXJlciIsImF6cCI6InNlY3VyaXR5LWFkbWluLWNvbnNvbGUiLCJub25jZSI6IjkyY2U3MmNmLWFmMTAtNGNlZC1hYjgyLWQ0NDNiYzI0MmViNCIsInNlc3Npb25fc3RhdGUiOiJlNTQzMzY3ZC1mYmI4LTQ1MTUtYTA0ZS04YzE3MGEwMzIxODYiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCJdLCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwic2lkIjoiZTU0MzM2N2QtZmJiOC00NTE1LWEwNGUtOGMxNzBhMDMyMTg2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.287Jx9ZYzZuByn0DdI9BCzupHgRNhE_RSv3bS0lwrN7kzJVzMmWVtEd94ypZOynd7D_vu5-uNZes9DjL-hV1J5Br43yoef5E4PxeQWll1ZnouWzpPIsxYiukAyRknCu3kGk9NSIuWgLUXBq8PeyBHiKwAljymMRvCxg_3k6qj5Ng2xPTa1pfYpO2NoNpuPW8Zd2uDePx6PFXdB4wYJIUrToLbOjHYJwskKvkuw38lkmKauWUlX-2UZFlNjwuiJDbesVS3M-pF8isuGq6UU1tndKnvPodMzDZgks3ExOUQKyPjSU-QlK9p4fGfb_ViotIb8HoeVMGFUwDtLCBUsCCTQ",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: username,
+              enabled: true,
+              credentials: [
+                {
+                  type: "password",
+                  value: password,
+                },
+              ],
+            }),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Failed to create user");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              console.log("User created successfully:", data);
+              alert("User created successfully!");
+            })
+            .catch((error) => {
+              console.error("Error creating user:", error);
+              alert("Error creating user: " + error.message);
+            });
+        });
+    </script>
+  </body>
+</html>
