@@ -77,13 +77,17 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(ar -> ar.requestMatchers("/api/v1/auth/login/**").permitAll())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/api/v1/waiters/**").authenticated())
+/*
                 .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
+*/
+                .authorizeHttpRequests(ar -> ar.anyRequest().permitAll())
 
                 .oauth2ResourceServer(oa -> oa.jwt(Customizer.withDefaults()))
                 .build();
     }
 
-    @Bean
+   /* @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedHeader("*");
@@ -93,7 +97,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
-    }
+    }*/
 
     @Bean
     JwtEncoder jwtEncoder() {

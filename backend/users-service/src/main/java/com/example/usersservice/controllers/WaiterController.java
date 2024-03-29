@@ -21,7 +21,9 @@ import java.util.List;
 @RequestMapping("/api/v1/waiters")
 @AllArgsConstructor
 @Transactional
+/*
 @CrossOrigin("*")
+*/
 public class WaiterController {
 
     private final WaiterService waiterService;
@@ -111,4 +113,5 @@ public class WaiterController {
         Page<Waiter> waiters = waiterService.getAllWaiters(page-1, size);
         return new ResponseEntity<>(waiters, HttpStatus.OK);
     }
+
 }
