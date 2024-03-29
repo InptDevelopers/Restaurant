@@ -9,13 +9,19 @@ import RestaurantDetailsclient from "./pages/restaurantpages/Restaurantdetailscl
 import ClientPage from "./pages/clientPage/ClientPage";
 import ChefPage from "./pages/chefPage/Chefpage";
 import WaiterPage from "./pages/waiterPage/WaiterPage";
+import Login from "./pages/login/Login";
+import Navbar from "./components/restaurantcomponents/navbar";
 
 function App() {
   return (
     <div className="h-screen w-screen ">
+      <Navbar/>
       <Router>
         <Routes>
+
           <Route path="/" element={<TablePage />} />
+          <Route path="/login" element={<Login />} />
+
           <Route path="/clients" element={< ClientPage/>} />
           <Route path="/chefs" element={<ChefPage />} />
           <Route path="/waiters" element={<WaiterPage />} />
