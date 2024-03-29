@@ -9,24 +9,33 @@ import RestaurantDetailsclient from "./pages/restaurantpages/Restaurantdetailscl
 import ClientPage from "./pages/clientPage/ClientPage";
 import ChefPage from "./pages/chefPage/Chefpage";
 import WaiterPage from "./pages/waiterPage/WaiterPage";
+import Login from "./pages/login/Login";
+import Navbar from "./components/restaurantcomponents/navbar";
+import RequiredAuth from "./components/RequiredAuth/RequiredAuth";
 
 function App() {
   return (
     <div className="h-screen w-screen ">
+      <Navbar />
       <Router>
         <Routes>
           <Route path="/" element={<TablePage />} />
-          <Route path="/clients" element={< ClientPage/>} />
-          <Route path="/chefs" element={<ChefPage />} />
-          <Route path="/waiters" element={<WaiterPage />} />
+          <Route path="/login" element={<Login />} />
 
+          <Route element={<RequiredAuth />}>
+            <Route path="/admin/clients" element={<ClientPage />} />
+            <Route path="/chefs" element={<ChefPage />} />
+            <Route path="/waiters" element={<WaiterPage />} />
 
-          <Route path="/restaurantadmin" element={<PaginationComponent />} />
+            <Route path="/restaurantadmin" element={<PaginationComponent />} />
+            <Route
+              path="/restaurant/:id"
+              element={<RestaurantDetails></RestaurantDetails>}
+            />
+          </Route>
+
           <Route path="/restaurant" element={<RestauList />} />
-          <Route
-            path="/restaurant/:id"
-            element={<RestaurantDetails></RestaurantDetails>}
-          />
+
           <Route
             path="/restaurantclient/:id"
             element={<RestaurantDetailsclient></RestaurantDetailsclient>}
