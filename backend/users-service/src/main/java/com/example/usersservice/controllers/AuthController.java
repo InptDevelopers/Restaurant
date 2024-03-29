@@ -14,7 +14,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.*;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -56,6 +55,17 @@ public class AuthController {
                 String jwtAccessToken = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
                 idToken.put("accessToken", jwtAccessToken);
 
-        return new ResponseEntity<>(idToken, HttpStatus.OK);
-    }
+                return new ResponseEntity<>(idToken, HttpStatus.OK);
+        }
+
+        @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+        @GetMapping("/verifyAdmin")
+        public void validateAdmin() {
+        }
+
+        @PreAuthorize("hasAuthority('SCOPE_CLIENT')")
+
+        @GetMapping("/verifyClient")
+        public void validateClient() {
+        }
 }
