@@ -1,10 +1,9 @@
 package com.example.usersservice.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -58,17 +56,6 @@ public class AuthController {
                 String jwtAccessToken = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet)).getTokenValue();
                 idToken.put("accessToken", jwtAccessToken);
 
-                return new ResponseEntity<>(idToken, HttpStatus.OK);
-        }
-
-        @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-        @GetMapping("/verifyAdmin")
-        public void validateAdmin() {
-        }
-
-        @PreAuthorize("hasAuthority('SCOPE_CLIENT')")
-
-        @GetMapping("/verifyClient")
-        public void validateClient() {
-        }
+        return new ResponseEntity<>(idToken, HttpStatus.OK);
+    }
 }
