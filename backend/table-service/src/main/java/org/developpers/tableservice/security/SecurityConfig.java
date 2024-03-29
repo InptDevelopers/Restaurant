@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
+                .authorizeHttpRequests(ar -> ar.anyRequest().permitAll())
                 .oauth2ResourceServer(oa -> oa.jwt(Customizer.withDefaults()))
                 .build();
     }
