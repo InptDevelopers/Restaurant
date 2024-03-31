@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class MenuController {
     private final MenuService menuService;
-    @GetMapping("/restaurants/menu/{id}")
+    @GetMapping("/restaurants/{id}/menu")
     public ResponseEntity<MenuDTO> getmenu( @PathVariable  Long id,  @RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int size){
         MenuDTO menuDTO=menuService.getmenu(id,page,size);

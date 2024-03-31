@@ -14,17 +14,17 @@ import Restaurant from "../../components/restaurantcomponents/box";
 import ItemCreation from "./ItemCreation.jsx";
 
 const RestaurantMenu = () => {
-  const { id } = useParams();
+  const id = JSON.parse(localStorage.getItem("user")).idRestaurant;
   const [menu, setMenu] = useState(null);
   const [existing, SetExisting] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const pageNumbers = [];
   const [totalPages, setTotalPages] = useState(0);
-  const [show, setShow] = useState(false);
+  /* const [show, setShow] = useState(false); */
   const [pageSize, setPageSize] = useState(4);
-  const close = () => {
+  /* const close = () => {
     setShow(false);
-  };
+  }; */
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -34,14 +34,17 @@ const RestaurantMenu = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get(
+        /* const response = await axios.get(
           `http://localhost:8080/api/v1/restaurants/menu/${id}?page=${currentPage}&size=${pageSize}`
-        );
-        setMenu(response.data);
+        ); */
+        const response = await instance.get(
+          `/RESTAURANT-SERVICE/api/v1/restaurants/${id}/menu/?page=${currentPage}&size=${pageSize}`
+        )
+        /* setMenu(response.data); */
         console.log(response.data);
-        setCurrentPage(response.data.currentPage);
+        /* setCurrentPage(response.data.currentPage);
         setPageSize(response.data.pageSize);
-        setTotalPages(response.data.totalPages);
+        setTotalPages(response.data.totalPages); */
         if (response.data == null) {
           SetExisting(false);
         }

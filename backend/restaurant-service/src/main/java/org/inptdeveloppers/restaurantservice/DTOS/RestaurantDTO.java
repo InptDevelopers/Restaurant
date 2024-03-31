@@ -13,4 +13,5 @@ public class RestaurantDTO {
     private String description;
     private String address;
     private Long idOwner;
+
 }

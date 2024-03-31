@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/v1/waiters")
 @AllArgsConstructor
 @Transactional
 /*
-@CrossOrigin("*")
-*/
+ * @CrossOrigin("*")
+ */
 public class WaiterController {
 
     private final WaiterService waiterService;
@@ -57,8 +56,10 @@ public class WaiterController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @DeleteMapping ("/{waiterId}/reservations/{reservationId}")
-    public ResponseEntity<HttpStatus> deleteReservationOfWaiter(@PathVariable Long waiterId, @PathVariable Long reservationId) {
+
+    @DeleteMapping("/{waiterId}/reservations/{reservationId}")
+    public ResponseEntity<HttpStatus> deleteReservationOfWaiter(@PathVariable Long waiterId,
+            @PathVariable Long reservationId) {
         try {
             Waiter waiter = waiterService.getWaiter(waiterId);
             waiter.getReservations().remove(reservationId);
@@ -107,20 +108,19 @@ public class WaiterController {
     // Get waiters with pagination
     @GetMapping
     public ResponseEntity<Page<Waiter>> getAllWaiters(@RequestParam(defaultValue = "1") int page,
-                                                      @RequestParam(defaultValue = "10") int size) {
-        Page<Waiter> waiters = waiterService.getAllWaiters(page-1, size);
+            @RequestParam(defaultValue = "10") int size) {
+        Page<Waiter> waiters = waiterService.getAllWaiters(page - 1, size);
         return new ResponseEntity<>(waiters, HttpStatus.OK);
     }
-<<<<<<< HEAD
+
     @GetMapping("/available/{restaurantId}/reservations/{reservationId}")
-    public Long AssignWaiterToReservation(@PathVariable Long reservationId, @PathVariable Long restaurantId){
-        return waiterService.AssignWaiterToReservation(restaurantId,reservationId);
+    public Long AssignWaiterToReservation(@PathVariable Long reservationId, @PathVariable Long restaurantId) {
+        return waiterService.AssignWaiterToReservation(restaurantId, reservationId);
     }
+
     @GetMapping("/available/{restaurantId}")
-    public Long AssignWaiter( @PathVariable Long restaurantId){
+    public Long AssignWaiter(@PathVariable Long restaurantId) {
         return waiterService.AssignWaiter(restaurantId);
     }
-=======
->>>>>>> 673d086774178f37dac8bc8d16f07a98f5ab3da9
 
 }

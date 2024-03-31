@@ -8,11 +8,8 @@ import org.developpers.tableservice.repositories.ZoneRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-<<<<<<< HEAD
 import org.springframework.context.annotation.Bean;
-=======
 import org.springframework.cloud.openfeign.EnableFeignClients;
->>>>>>> 673d086774178f37dac8bc8d16f07a98f5ab3da9
 
 @SpringBootApplication
 @EnableFeignClients

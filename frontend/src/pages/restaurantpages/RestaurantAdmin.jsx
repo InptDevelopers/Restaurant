@@ -150,9 +150,7 @@ const RestaurantAdmin = () => {
           </div>
         </form>
       </div>
-
         <RestaurantMenu />
-
     </div>
   );
 };
