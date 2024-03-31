@@ -242,7 +242,7 @@ const TablePage = () => {
       });
   };
   return (
-    <div className="md:flex justify-center p-6  min-h-[100vh] items-center">
+    <div className="md:flex justify-center p-6  flex-1 items-center">
       <div className="absolute right-0 top-0 mr-5 mt-5">
         {loading && (
           <div className="flex justify-center">
@@ -254,7 +254,7 @@ const TablePage = () => {
         )}
         {errorMessage && <div className="text-red-600">{errorMessage}</div>}
       </div>
-      <div className="w-full md:w-1/2 px-4">
+      <div className="w-full md:w-1/2 flex-1 px-4 ">
         <h1 className="text-2xl font-bold mb-4">Zones</h1>
         <div className="overflow-x-auto shadow-md rounded-xl">
           <table className="w-full table-auto border-collapse border border-gray-300 ">

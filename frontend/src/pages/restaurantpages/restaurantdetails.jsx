@@ -17,7 +17,6 @@ const RestaurantDetails = () => {
   const close = () => {
     setShow(false);
   };
-  console.log(id);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -43,12 +42,41 @@ const RestaurantDetails = () => {
       }
     };
 
-    fetchMenu();
+    //fetchMenu();
+    setMenu({items: [
+      {
+        id: 1,
+        nom: "ilyass",
+        prix: 1200
+      },
+      {
+        id: 1,
+        nom: "ilyass",
+        prix: 1200
+      },
+      {
+        id: 1,
+        nom: "ilyass",
+        prix: 1200
+      },
+      {
+        id: 1,
+        nom: "ilyass",
+        prix: 1200
+      },
+      {
+        id: 1,
+        nom: "ilyass",
+        prix: 1200
+      },
+    ]});
+    setCurrentPage(0);
+    setPageSize(5);
+    setTotalPages(1);
   }, [id, currentPage, pageSize]);
 
   return (
     <div>
-      <Navbar></Navbar>
       {existing && menu ? (
         <div className="restaurant-menu">
           <h1>Restaurant Menu</h1>

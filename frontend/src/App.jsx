@@ -15,7 +15,7 @@ import RestaurantAdmin from "./pages/restaurantpages/RestaurantAdmin";
 
 function App() {
   return (
-    <div className="h-screen w-screen ">
+    <div className="h-screen max-w-screen flex flex-col">
       <Router>
         <Routes>
           <Route element={<RequiredAuth />}>
@@ -26,15 +26,18 @@ function App() {
             <Route path="/restaurants" element={<RestauList />} />
 
             {/* admin routes */}
+            <Route path="/" element={<RestaurantAdmin />} />
             <Route path="/admin/restaurant" element={<RestaurantAdmin />} />
-
+            <Route path="/admin/tables" element={<TablePage />} />
+            <Route path="/admin/waiters" element={<WaiterPage />} />
+            <Route path="/admin/chefs" element={<ChefPage />} />
             {/* 
             <Route path="/admin/clients" element={<ClientPage />} />
-            <Route path="/admin/chefs" element={<ChefPage />} />
-            <Route path="/admin/waiters" element={<WaiterPage />} />
-            <Route path="/admin/table" element={<TablePage />} />
-            <Route path="/restaurantadmin" element={<PaginationComponent />} />
-            <Route path="/restaurant/:id" element={<RestaurantDetails />} /> */}
+            
+           
+           
+            <Route path="/restaurantadmin" element={<PaginationComponent />} />*/}
+            <Route path="/restaurant/:id" element={<RestaurantDetails />} />
           </Route>
 
           {/* <Route

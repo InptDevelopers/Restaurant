@@ -19,7 +19,7 @@ public class Menu {
     @OneToMany(mappedBy = "menu")
     private List<Item> items;
     @OneToOne
- private Restaurant restaurant;
+    private Restaurant restaurant;
 
 
 }

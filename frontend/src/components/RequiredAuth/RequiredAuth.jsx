@@ -32,12 +32,12 @@ function RequiredAuth() {
 
         if (
           location.pathname === "/login" ||
-          location.pathname === "/register"
+          location.pathname === "/register" ||
+          location.pathname === "/"
         ) {
           if (user.role === "ADMIN") navigate("/admin/restaurant");
           if (user.role === "CLIENT") navigate("/restaurants");
         }
-
         console.log(location.pathname);
 
         setIsSignPage(false);

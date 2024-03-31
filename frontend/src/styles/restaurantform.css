@@ -4,7 +4,6 @@
 
 .restaurant-form {
   display: block;
-  position: fixed;
   top: 50%;
   width: 700px;
   height: 400px;
@@ -17,6 +16,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: black;
+  z-index: 10;
 }
 
 .show-form {
