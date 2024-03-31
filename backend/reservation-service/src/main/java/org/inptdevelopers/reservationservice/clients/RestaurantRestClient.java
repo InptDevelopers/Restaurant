@@ -1,11 +1,16 @@
 package org.inptdevelopers.reservationservice.clients;
 
+import org.inptdevelopers.reservationservice.models.Items;
 import org.inptdevelopers.reservationservice.models.Restaurant;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @FeignClient(name = "RESTAURANT-SERVICE")
 public interface RestaurantRestClient {
@@ -19,4 +24,7 @@ public interface RestaurantRestClient {
         
         return restaurant;
     }
+
+    @PostMapping("api/v1/restaurants/menu/items")
+     List<Items> getItems(@RequestBody List<Long> items);
 }

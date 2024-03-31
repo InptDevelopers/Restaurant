@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/tables")
@@ -58,4 +60,12 @@ public class TableController {
         Page<TableDTO> tables = tableService.getAllTablesByRestaurantId(restaurantId,page,size);
         return ResponseEntity.ok(tables);
     }
+
+    @GetMapping("/empty/{id}")
+    public ResponseEntity<List<TableDTO>> getemptytablesByRestaurantId(@PathVariable Long id
+    ) {
+        List<TableDTO> tables = tableService.getEmptytables(id);
+        return ResponseEntity.ok(tables);
+    }
+
 }

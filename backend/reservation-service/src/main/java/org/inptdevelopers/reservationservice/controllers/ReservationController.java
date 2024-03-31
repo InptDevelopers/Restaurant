@@ -2,25 +2,36 @@ package org.inptdevelopers.reservationservice.controllers;
 
 import lombok.AllArgsConstructor;
 /* import lombok.extern.slf4j.Slf4j; */
+import org.inptdevelopers.reservationservice.clients.RestaurantRestClient;
+import org.inptdevelopers.reservationservice.clients.TableClient;
+import org.inptdevelopers.reservationservice.clients.WaiterClient;
+import org.inptdevelopers.reservationservice.dtos.ReservationCreationDTO;
 import org.inptdevelopers.reservationservice.dtos.ReservationDTO;
-import org.inptdevelopers.reservationservice.dtos.ReservationPageDTO;
-import org.inptdevelopers.reservationservice.dtos.ReservationRequestDTO;
-import org.inptdevelopers.reservationservice.exceptions.ReservationNotFoundException;
+import org.inptdevelopers.reservationservice.entities.Reservation;
+import org.inptdevelopers.reservationservice.models.ATable;
+import org.inptdevelopers.reservationservice.models.Items;
 import org.inptdevelopers.reservationservice.services.ReservationServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
+
 @RequestMapping("/api/v1/reservations")
 @AllArgsConstructor
 @CrossOrigin("*")
 /* @Slf4j */
 public class ReservationController {
     private final ReservationServiceImpl reservationService;
+    private final TableClient tableClient;
+    private final WaiterClient waiterClient;
+    private final RestaurantRestClient restaurantRestClient;
 
-    @GetMapping
+
+   /* @GetMapping
     public ResponseEntity<ReservationPageDTO> getAllReservations(
             @RequestParam(required = false) Long restaurantId,
             @RequestParam(required = false) Long waiterId,
@@ -31,7 +42,7 @@ public class ReservationController {
     ) {
         ReservationPageDTO reservationPageDTO = reservationService.getReservations(restaurantId, waiterId, clientId, isCharged, page, size);
         return new ResponseEntity<>(reservationPageDTO, HttpStatus.OK);
-    }
+    }*/
     /*@GetMapping("/restaurant/{idRestaurant}")
     public ResponseEntity<List<ReservationDTO>> getAllReservationsByRestaurantId(
             @RequestParam(defaultValue = "0") int page,
@@ -40,7 +51,7 @@ public class ReservationController {
         List<ReservationDTO> reservations = reservationService.getAllReservationsByRestaurantId(idRestaurant,page, size);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
-
+*/
     @GetMapping("/client/{idClient}")
     public ResponseEntity<List<ReservationDTO>> getAllReservationsByWaiterId(
             @RequestParam(defaultValue = "0") int page,
@@ -57,8 +68,8 @@ public class ReservationController {
             @PathVariable Long idWaiter) {
         List<ReservationDTO> reservations = reservationService.getAllReservationsByRestaurantId(idWaiter,page, size);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
-    }*/
-
+    }
+/*
     @GetMapping("/{id}")
     public ResponseEntity<ReservationDTO> getReservationById(@PathVariable Long id) {
         try {
@@ -90,10 +101,31 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
+*/
     /*@PutMapping("/{id}")
     public ResponseEntity<Reservation> updateReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
         Reservation updatedReservation = reservationService.updateReservation(id, reservation);
         return new ResponseEntity<>(updatedReservation, HttpStatus.OK);
     }*/
+      @GetMapping("/tables/{id}")
+    public List<ATable> getemptytable(@RequestHeader("Authorization") String accessToken, @PathVariable Long id){
+        return tableClient.findEmptytables(id,accessToken);
+
+    }
+    @GetMapping("/restaurants/{restaurantId}/reservations/{reservationId}")
+    public Long getwaiter(@RequestHeader("Authorization") String accessToken, @PathVariable("restaurantId")  Long restaurantId, @PathVariable("reservationId") Long reservationId){
+        return waiterClient.getWaiter(restaurantId,reservationId,accessToken);
+
+
+    }
+    @PostMapping("/restaurants/{restaurantId}/zones/{zoneId}")
+    public ResponseEntity<Reservation> createreservation(@PathVariable("restaurantId") Long restaurantId, @RequestHeader("Authorization") String accessToken, @PathVariable("zoneId") Long zoneId, @RequestBody ReservationCreationDTO reservationCreationDTO){
+        Reservation reservationid=reservationService.reservationcreate(zoneId,accessToken,restaurantId,reservationCreationDTO);
+        return new ResponseEntity<>(reservationid,HttpStatus.OK);
+    }
+    @PostMapping("/items")
+    public List<Items> getitems(@RequestBody List<Long> items){
+          return restaurantRestClient.getItems(items);
+    }
+
 }

@@ -1,12 +1,16 @@
 package org.inptdeveloppers.restaurantservice.controllers;
 
 import lombok.AllArgsConstructor;
+import org.inptdeveloppers.restaurantservice.DTOS.ItemDTO;
 import org.inptdeveloppers.restaurantservice.DTOS.MenuDTO;
 import org.inptdeveloppers.restaurantservice.DTOS.MenucreationDTO;
+import org.inptdeveloppers.restaurantservice.entities.Item;
 import org.inptdeveloppers.restaurantservice.services.MenuService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -27,5 +31,10 @@ public ResponseEntity saveMenu(@RequestBody MenucreationDTO menucreationDTO){
         return new ResponseEntity(HttpStatus.CREATED);
 
     }
+    @PostMapping("/restaurants/menu/items")
+    public List<ItemDTO> getitems(@RequestBody List<Long> itemsId){
+        return menuService.getitems(itemsId);
+    }
+
 
 }

@@ -9,8 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -111,4 +109,13 @@ public class WaiterController {
         Page<Waiter> waiters = waiterService.getAllWaiters(page-1, size);
         return new ResponseEntity<>(waiters, HttpStatus.OK);
     }
+    @GetMapping("/available/{restaurantId}/reservations/{reservationId}")
+    public Long AssignWaiterToReservation(@PathVariable Long reservationId, @PathVariable Long restaurantId){
+        return waiterService.AssignWaiterToReservation(restaurantId,reservationId);
+    }
+    @GetMapping("/available/{restaurantId}")
+    public Long AssignWaiter( @PathVariable Long restaurantId){
+        return waiterService.AssignWaiter(restaurantId);
+    }
+
 }

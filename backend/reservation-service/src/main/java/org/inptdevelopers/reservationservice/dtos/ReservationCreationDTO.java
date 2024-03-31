@@ -1,13 +1,6 @@
 package org.inptdevelopers.reservationservice.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import org.inptdevelopers.reservationservice.models.ATable;
-import org.inptdevelopers.reservationservice.models.Command;
+import lombok.*;
 import org.inptdevelopers.reservationservice.models.Items;
 import org.inptdevelopers.reservationservice.models.Restaurant;
 
@@ -19,13 +12,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservationDTO {
-    private Long id;
+public class ReservationCreationDTO {
     private int numGuests;
     private LocalDateTime reservationTime;
     private int reservationPrice;
-private Long tableId;
-private List<Items> items;
 
+    private List<Long> itemsId;
+    private Long clientId;
 
 }

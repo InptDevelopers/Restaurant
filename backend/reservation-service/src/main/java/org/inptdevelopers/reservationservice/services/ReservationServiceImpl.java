@@ -1,33 +1,47 @@
 package org.inptdevelopers.reservationservice.services;
 
 import lombok.AllArgsConstructor;
+
+import org.inptdevelopers.reservationservice.clients.TableClient;
+import org.inptdevelopers.reservationservice.clients.WaiterClient;
+import org.inptdevelopers.reservationservice.dtos.ReservationCreationDTO;
 import org.inptdevelopers.reservationservice.dtos.ReservationPageDTO;
 import org.inptdevelopers.reservationservice.dtos.ReservationRequestDTO;
 import org.inptdevelopers.reservationservice.entities.Reservation;
 import org.inptdevelopers.reservationservice.dtos.ReservationDTO;
 import org.inptdevelopers.reservationservice.exceptions.ReservationNotFoundException;
 import org.inptdevelopers.reservationservice.mappers.ReservationMapper;
+import org.inptdevelopers.reservationservice.models.ATable;
+import org.inptdevelopers.reservationservice.models.TableStatus;
 import org.inptdevelopers.reservationservice.repositories.ReservationRepository;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+
 public class ReservationServiceImpl implements ReservationService{
+
     private final ReservationRepository reservationRepository;
     private ReservationMapper reservationMapper;
+    private final TableClient tableClient;
+    private final WaiterClient waiterClient;
 
-    /*
+
+
     public List<Reservation> getAllReservations(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return reservationRepository.findAll(pageable).getContent();
     }
-    */
+
+
     public List<ReservationDTO> getAllReservationsByRestaurantId(Long id, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         List<Reservation> reservations = reservationRepository.findByRestaurantId(id, pageable).getContent();
@@ -35,6 +49,7 @@ public class ReservationServiceImpl implements ReservationService{
                 .map(reservation -> reservationMapper.fromReservation(reservation))
                 .toList();
     }
+/*
 
     @Override
     public List<ReservationDTO> getAllReservationsByWaiterId(Long idWaiter, int page, int size) {
@@ -43,7 +58,7 @@ public class ReservationServiceImpl implements ReservationService{
         return reservationsPage.map(reservation -> reservationMapper.fromReservation(reservation))
                 .getContent();
     }
-
+*/
     @Override
     public List<ReservationDTO> getAllReservationsByClientId(Long clientId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -52,6 +67,9 @@ public class ReservationServiceImpl implements ReservationService{
                 .getContent();
     }
 
+
+
+
     public ReservationDTO getReservationById(Long id) throws ReservationNotFoundException {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation not found with id: "+ id));
@@ -59,12 +77,43 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     public ReservationDTO createReservation(ReservationRequestDTO reservationDTO) {
+
         reservationDTO.setCharged(false);
         Reservation reservation = reservationMapper.fromReservationRequestDTO(reservationDTO);
         Reservation createdReservation = reservationRepository.save(reservation);
         return reservationMapper.fromReservation(createdReservation);
+
     }
 
+    @Override
+    public Reservation reservationcreate(Long zoneId, String token, Long restaurantId, ReservationCreationDTO reservationCreationDTO) {
+        Reservation reservation;
+        reservation=reservationRepository.save(new Reservation());
+reservationMapper.fromReservationcreationDTO(reservation,reservationCreationDTO);
+        Long waiterId= waiterClient.getWaiter(restaurantId,reservation.getId(),token);
+      List<ATable> tables =   tableClient.findEmptytables(zoneId,token);
+        Random random = new Random();
+        ATable table = tables.get(random.nextInt(tables.size()));
+        table.setStatus(TableStatus.OCCUPIED);
+        tableClient.updateTable(table.getId(),table);
+reservation.setRestaurantId(restaurantId);
+        reservation.setWaiterId(waiterId);
+
+        reservation.setTableId(table.getId());
+        reservationRepository.save(reservation);
+        return reservation;
+
+
+    }
+   public List<ATable> reserve(Long zoneId, Long restaurantId, String token){
+       Reservation reservation;
+       reservation=reservationRepository.save(new Reservation());
+       List<ATable> tables =   tableClient.findEmptytables(zoneId,token);
+
+   return
+           tables;
+    }
+    /*
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
@@ -77,7 +126,7 @@ public class ReservationServiceImpl implements ReservationService{
         reservationRepository.save(reservation);
         return reservationMapper.fromReservation(reservation);
     }
-
+*/
 
     /* @Override
     public ReservationPageDTO getReservations(Long restaurantId, Long waiterId, Long clientId, int page, int size) {
@@ -109,7 +158,7 @@ public class ReservationServiceImpl implements ReservationService{
         return new ReservationPageDTO(reservationDTOs, page, size, reservationPage.getTotalElements());
     }
     */
-
+/*
     @Override
     public ReservationPageDTO getReservations(Long restaurantId, Long waiterId, Long clientId, Boolean isCharged, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -168,4 +217,5 @@ public class ReservationServiceImpl implements ReservationService{
         reservation.setId(id);
         return reservationRepository.save(reservation);
     }*/
+
 }

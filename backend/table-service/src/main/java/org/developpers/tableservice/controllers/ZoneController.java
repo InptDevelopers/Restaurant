@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.developpers.tableservice.dtos.TableDTO;
 import org.developpers.tableservice.dtos.ZoneDTO;
 
+import org.developpers.tableservice.dtos.ZoneDTO2;
 import org.developpers.tableservice.exceptions.ZoneIsFull;
 import org.developpers.tableservice.exceptions.ZoneNotEmpty;
 import org.developpers.tableservice.exceptions.ZoneNotFoundException;
@@ -54,7 +55,15 @@ public class ZoneController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
+    @GetMapping("empty/{id}")
+    public ResponseEntity getZone2ById(@PathVariable Long id) {
+        try {
+            ZoneDTO2 zoneDTO2 = zoneService.getZone2ById(id);
+            return ResponseEntity.ok(zoneDTO2);
+        } catch (ZoneNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity deleteZone(@PathVariable Long id,  @RequestParam(required = false, defaultValue = "false") Boolean forceDelete) {
         try {

@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface ZoneRepository extends JpaRepository<Zone,Long> {
     Page<Zone> findByRestaurantId(Long restaurantId, Pageable pageable) ;
+
+
 }
