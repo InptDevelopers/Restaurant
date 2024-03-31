@@ -83,6 +83,7 @@ public class SecurityConfig {
                 .build();
     }
 
+/* 
     //@Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -93,7 +94,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
-    }
+    }*/
 
     @Bean
     JwtEncoder jwtEncoder() {

@@ -18,7 +18,6 @@ import java.util.Stack;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1")
-@CrossOrigin("*")
 public class RestaurantController {
 private final RestaurantService restaurantService;
     @GetMapping("/restaurants/{id}")
@@ -48,9 +47,9 @@ private final RestaurantService restaurantService;
     return new ResponseEntity<>(restaurants,HttpStatus.OK);
 }
 @PostMapping("/restaurants")
-    public ResponseEntity createRestaurant(@RequestBody Restaurant restaurant){
-    restaurantService.createRestaurant(restaurant);
-    return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Restaurant> createRestaurant(@RequestBody Restaurant restaurant){
+    Restaurant createdRestaurant =restaurantService.createRestaurant(restaurant);
+    return new ResponseEntity<>(createdRestaurant,HttpStatus.CREATED);
 }
 
 @DeleteMapping("/restaurants/{id}")

@@ -1,6 +1,7 @@
 package com.example.usersservice;
 
 import com.example.usersservice.entities.*;
+import com.example.usersservice.enums.Role;
 import com.example.usersservice.repositories.AdminRepository;
 import com.example.usersservice.repositories.EmployeeRepository;
 import com.example.usersservice.repositories.RoleRepository;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,6 +21,8 @@ import java.util.List;
 @AllArgsConstructor
 @SpringBootApplication
 @Slf4j
+@EnableFeignClients
+
 public class UsersServiceApplication implements CommandLineRunner {
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
@@ -66,7 +70,7 @@ public class UsersServiceApplication implements CommandLineRunner {
 
         waiter.getReservations().add(2L);
         waiter.setPassword(passwordEncoder.encode("123"));
-    waiter.setRole("ADMIN");
+    waiter.setRole(Role.ADMIN);
         Waiter waiter2 = new Waiter();
         waiter2.setName("ilyass");
         waiter2.setEmail("osama@gmail.com");
@@ -74,7 +78,7 @@ public class UsersServiceApplication implements CommandLineRunner {
         waiter2.setIdRestaurant(1L);
 
         waiter2.getReservations().add(2L);
-        waiter2.setRole("CLIENT");
+        waiter2.setRole(Role.CLIENT);
         waiter2.setPassword(passwordEncoder.encode("123"));
 
         // Assuming Employee is a subclass of User

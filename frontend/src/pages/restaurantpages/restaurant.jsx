@@ -5,8 +5,8 @@ import RestaurantListAdmin from "../../components/restaurantcomponents/Restau-li
 import Navbar from "../../components/restaurantcomponents/navbar.jsx";
 import "../../styles/restau-list.css";
 import ConfirmationPopup from "../../components/restaurantcomponents/delete.jsx";
-import RestaurantForm from "../../components/restaurantcomponents/restaurantform.jsx";
 import RestaurantAdmin from "../../components/restaurantcomponents/box2.jsx";
+import instance from "../../../axios.js";
 const PaginationComponent = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [pageSize, setPageSize] = useState(5);
@@ -47,11 +47,14 @@ const PaginationComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/restaurants?page=${currentPage}&size=${pageSize}`
+        const restaurantId = JSON.parse(
+          localStorage.getItem("user")
+        ).idRestaurant;
+        const response = await instance.get(
+          `/RESTAURANT-SERVICE/api/v1/restaurants/${restaurantId}`
         );
+        console.log(response.data);
         setRestaurants(response.data.restaurantsdto);
-
         setTotalPages(response.data.totalPages);
         setPageSize(response.data.pageSize);
 
@@ -73,7 +76,7 @@ const PaginationComponent = () => {
 
   return (
     <div>
-      <Navbar></Navbar>
+      {/* <Navbar></Navbar> */}
       <div className="head">My restaurants</div>
       <div className="add">
         <button onClick={toggleForm}>
@@ -92,7 +95,7 @@ const PaginationComponent = () => {
         </button>
       </div>
 
-      <div>{show && <RestaurantForm show={close} />}</div>
+      {/* <div>{show && <RestaurantForm show={close} />}</div> */}
       <div className="main-container">
         <RestaurantListAdmin restaurants={restaurants} />
         <nav>

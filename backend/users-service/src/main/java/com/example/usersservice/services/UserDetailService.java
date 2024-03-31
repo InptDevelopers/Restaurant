@@ -23,7 +23,7 @@ public class UserDetailService implements UserDetailsService {
         AppUser user = userService.loadUserByEmail(email);
         if (user == null)
             throw new UsernameNotFoundException("User with email " + email + " no found");
-        GrantedAuthority role = new SimpleGrantedAuthority(user.getRole());
+        GrantedAuthority role = new SimpleGrantedAuthority(user.getRole().toString());
         UserDetails userDetails = User.withUsername(email).password(user.getPassword()).authorities(role)
                 .build();
         return userDetails;

@@ -10,32 +10,37 @@ import org.developpers.tableservice.exceptions.ZoneNotEmpty;
 import org.developpers.tableservice.exceptions.ZoneNotFoundException;
 import org.developpers.tableservice.services.TableService;
 import org.developpers.tableservice.services.ZoneService;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
 @RequestMapping("api/v1/zones")
 @CrossOrigin("*")
-
 @AllArgsConstructor
 public class ZoneController {
 
     private final ZoneService zoneService;
     private final TableService tableService;
-
+    private final Open open;
     @PostMapping
     public ResponseEntity<ZoneDTO> addZone(@RequestBody ZoneDTO zoneDTO) {
         ZoneDTO addedZone = zoneService.addZone(zoneDTO);
         return new ResponseEntity<>(addedZone, HttpStatus.CREATED);
     }
+/*
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+*/
     @GetMapping("/test")
-    public String test(){
-            return  "hi admin ";
+    public Page<Waiter> test(@RequestHeader String Authorization){
+        return  open.waiters(Authorization) ;
     }
 
     @PreAuthorize("hasAuthority('SCOPE_CLIENT')")

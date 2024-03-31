@@ -1,14 +1,8 @@
-// RestaurantForm.js
 
-import React, { useState, useRef, useEffect } from "react";
-import "../../styles/restaurantform.css";
+import React, { useState, useRef, useEffect, useEffect } from "react";
 
-const RestaurantForm = ({ show }) => {
-  const [formData, setFormData] = useState({
-    nom: "",
-    address: "",
-    description: "",
-  });
+const RestaurantAdmin = () => {
+  const [restaurant, setRestaurant] = useState();
   const showform = () => {
     show();
   };
