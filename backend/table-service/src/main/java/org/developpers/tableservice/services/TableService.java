@@ -6,7 +6,6 @@ import org.developpers.tableservice.entities.ATable;
 import org.developpers.tableservice.entities.Zone;
 import org.developpers.tableservice.exceptions.TableNotFoundException;
 import org.developpers.tableservice.mappers.TableMapper;
-import org.developpers.tableservice.mappers.ZoneMapper;
 import org.developpers.tableservice.repositories.TableRepository;
 import org.developpers.tableservice.repositories.ZoneRepository;
 import org.springframework.data.domain.Page;
@@ -17,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.developpers.tableservice.enums.TableStatus.NOT_OCCUPIED;
 
 @Service
 @AllArgsConstructor
@@ -51,6 +52,9 @@ public class TableService implements TableServiceInterface {
         return tableMapper.fromTable(updatedTable);
     }
 
+
+
+
     @Override
     public Page<TableDTO> getAllTablesInZone(Long zoneId, int page, int size){
        /* Zone zone = zoneRepository.findById(zoneId)
@@ -61,6 +65,8 @@ public class TableService implements TableServiceInterface {
 
         return tables.map(tableMapper::fromTable);
     }
+
+
 
     @Override
     public Page<TableDTO> getAllTablesByRestaurantId(Long restaurantId, int page, int size) {
@@ -74,4 +80,22 @@ public class TableService implements TableServiceInterface {
 
         return new PageImpl<>(allTables, zones.getPageable(), zones.getTotalElements());
     }
+    @Override
+    public List<TableDTO> getEmptytables(Long zoneId) {
+
+
+        List<ATable> tables = tableRepository.findByStatusAndZoneId(NOT_OCCUPIED,zoneId);
+
+
+        List<TableDTO> tableDTOS = new ArrayList<>();
+
+        for (ATable table : tables) {
+            tableDTOS.add(tableMapper.fromTable(table));
+        }
+        return  tableDTOS;
+    }
+
+
+
+
 }

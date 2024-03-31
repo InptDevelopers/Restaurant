@@ -1,4 +1,7 @@
 package org.inptdevelopers.reservationservice.mappers;
+import lombok.AllArgsConstructor;
+import org.inptdevelopers.reservationservice.clients.RestaurantRestClient;
+import org.inptdevelopers.reservationservice.dtos.ReservationCreationDTO;
 import org.inptdevelopers.reservationservice.dtos.ReservationDTO;
 import org.inptdevelopers.reservationservice.dtos.ReservationRequestDTO;
 import org.inptdevelopers.reservationservice.entities.Reservation;
@@ -10,35 +13,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@AllArgsConstructor
 @Service
 public class ReservationMapper {
-    public ReservationDTO fromReservation(Reservation reservation) {
+    private final RestaurantRestClient restaurantRestClient;
+  public ReservationDTO fromReservation(Reservation reservation) {
         ReservationDTO reservationDTO = new ReservationDTO();
         BeanUtils.copyProperties(reservation, reservationDTO);
-        if(reservationDTO.getRestaurant() == null) {
-            Restaurant restaurant = new Restaurant();
-            restaurant.setId(reservation.getRestaurantId());
-            reservationDTO.setRestaurant(restaurant);
-        }
-        if(reservationDTO.getTables() == null) {
-            List<ATable> tables = new ArrayList<>();
-            reservationDTO.setTables(tables);
-            reservation.getTableIds().forEach(tableId -> {
-                ATable table = new ATable();
-                table.setId(tableId);
-                reservationDTO.getTables().add(table);
-            });
-        }
-        if(reservationDTO.getCommand() == null) {
-            Command command = new Command();
-            command.setId(reservation.getCommandId());
-            reservationDTO.setCommand(command);
-        }
+        reservationDTO.setTableId(reservation.getTableId());
+        reservationDTO.setItems(restaurantRestClient.getItems(reservation.getItemsId()));
         return reservationDTO;
+
+
+
     }
 
-    public Reservation fromReservationDTO(ReservationDTO reservationDTO) {
+ /*   public Reservation fromReservationDTO(ReservationDTO reservationDTO) {
         Reservation reservation = new Reservation();
         BeanUtils.copyProperties(reservationDTO, reservation);
         reservation.setCommandId(reservationDTO.getCommand().getId());
@@ -48,6 +38,19 @@ public class ReservationMapper {
         }));
         reservation.setTableIds(tablesIds);
         reservation.setRestaurantId(reservationDTO.getRestaurant().getId());
+        return reservation;
+    }*/
+    public Reservation fromReservationCreationDTO(ReservationCreationDTO reservationCreationDTO) {
+        Reservation reservation = new Reservation();
+        BeanUtils.copyProperties(reservationCreationDTO, reservation);
+      /*  reservation.setCommandId(reservationDTO.getCommand().getId());
+        List<Long> tablesIds = new ArrayList<>();
+        reservationDTO.getTables().forEach((table -> {
+            tablesIds.add(table.getId());
+        }));*/
+       /* reservation.setTableIds(tablesIds);
+        reservation.setRestaurantId(reservationDTO.getRestaurant().getId());*/
+
         return reservation;
     }
 
@@ -61,6 +64,14 @@ public class ReservationMapper {
     public Reservation fromReservationRequestDTO(ReservationRequestDTO reservationRequestDTO) {
         Reservation reservation = new Reservation();
         BeanUtils.copyProperties(reservationRequestDTO, reservation);
+        return reservation;
+    }
+    public Reservation fromReservationcreationDTO(Reservation reservation,ReservationCreationDTO reservationCreationDTO){
+        BeanUtils.copyProperties(reservationCreationDTO,reservation);
+
+            reservation.setItemsId(reservationCreationDTO.getItemsId());
+
+        ;
         return reservation;
     }
 

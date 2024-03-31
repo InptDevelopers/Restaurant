@@ -99,7 +99,11 @@ public class AuthController {
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .subject(subject)
                 .issuedAt(instant)
+<<<<<<< HEAD
+                .expiresAt(instant.plus(10, ChronoUnit.MINUTES))
+=======
                 .expiresAt(instant.plus(100, ChronoUnit.MINUTES))
+>>>>>>> 673d086774178f37dac8bc8d16f07a98f5ab3da9
                 .issuer("security-service")
                 .claim("scope", scope)
                 .build();

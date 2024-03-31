@@ -66,6 +66,8 @@ public class UsersServiceApplication implements CommandLineRunner {
         waiter.setName("ilyass");
         waiter.setEmail("ilyass@gmail.com");
         waiter.getReservations().add(1L);
+        waiter.setIdRestaurant(1L);
+
         waiter.getReservations().add(2L);
         waiter.setPassword(passwordEncoder.encode("123"));
     waiter.setRole(Role.ADMIN);
@@ -73,6 +75,8 @@ public class UsersServiceApplication implements CommandLineRunner {
         waiter2.setName("ilyass");
         waiter2.setEmail("osama@gmail.com");
         waiter2.getReservations().add(1L);
+        waiter2.setIdRestaurant(1L);
+
         waiter2.getReservations().add(2L);
         waiter2.setRole(Role.CLIENT);
         waiter2.setPassword(passwordEncoder.encode("123"));

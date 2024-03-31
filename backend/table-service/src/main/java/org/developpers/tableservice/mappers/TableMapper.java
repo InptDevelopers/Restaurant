@@ -13,6 +13,7 @@ public class TableMapper {
         return tableDTO;
     }
 
+
     public ATable fromTableDTO(TableDTO tableDTO) {
         ATable table = new ATable();
         BeanUtils.copyProperties(tableDTO, table);

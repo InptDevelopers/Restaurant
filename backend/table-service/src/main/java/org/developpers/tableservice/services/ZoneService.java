@@ -4,6 +4,7 @@ package org.developpers.tableservice.services;
 import lombok.AllArgsConstructor;
 import org.developpers.tableservice.dtos.TableDTO;
 import org.developpers.tableservice.dtos.ZoneDTO;
+import org.developpers.tableservice.dtos.ZoneDTO2;
 import org.developpers.tableservice.entities.ATable;
 import org.developpers.tableservice.entities.Zone;
 import org.developpers.tableservice.enums.TableStatus;
@@ -45,6 +46,12 @@ public class ZoneService implements ZoneServiceInterface {
         Zone zone = zoneRepository.findById(id)
                 .orElseThrow(() -> new ZoneNotFoundException("Zone not found with id: " + id));
         return zoneMapper.fromZone(zone);
+    }
+    @Override
+    public ZoneDTO2 getZone2ById(Long id) throws ZoneNotFoundException{
+        Zone zone = zoneRepository.findById(id)
+                .orElseThrow(() -> new ZoneNotFoundException("Zone not found with id: " + id));
+        return zoneMapper.fromZone2(zone);
     }
 
     @Override

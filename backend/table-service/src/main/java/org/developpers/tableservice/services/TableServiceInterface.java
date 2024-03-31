@@ -11,7 +11,11 @@ public interface TableServiceInterface {
     void deleteTable(Long id) throws TableNotFoundException;
     TableDTO updateTable(Long id, TableDTO tableDTO) throws TableNotFoundException;
     Page<TableDTO> getAllTablesInZone(Long zoneId, int page, int size);
+
     Page<TableDTO> getAllTablesByRestaurantId (Long restaurantId,int page,int size);
+
+    List<TableDTO> getEmptytables(Long restaurantId);
+
 
 
 }

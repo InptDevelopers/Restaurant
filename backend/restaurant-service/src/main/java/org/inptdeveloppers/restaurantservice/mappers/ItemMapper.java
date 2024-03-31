@@ -15,7 +15,7 @@ public class ItemMapper {
     public ItemDTO fromItem(Item item){
         ItemDTO itemDTO=new ItemDTO();
         BeanUtils.copyProperties(item,itemDTO);
-        itemDTO.setIdmenu(item.getMenu().getId());
+
         return itemDTO;
 
     }

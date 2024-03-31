@@ -65,4 +65,17 @@ public class MenuService {
 
 
     }
+public  List<ItemDTO> getitems(List<Long> itemsId){
+        List<ItemDTO> items= new ArrayList<>();
+    for (int i = 0; i < itemsId.size(); i++) {
+        items.add(itemMapper.fromItem( itemRepository.findById(itemsId.get(i)).orElse(null)));
+
+
+
+
+    }
+
+    return items;
+
+}
 }

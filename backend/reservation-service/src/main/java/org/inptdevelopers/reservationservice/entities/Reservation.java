@@ -5,6 +5,7 @@ import lombok.*;
 
 import org.inptdevelopers.reservationservice.models.ATable;
 import org.inptdevelopers.reservationservice.models.Command;
+import org.inptdevelopers.reservationservice.models.Items;
 import org.inptdevelopers.reservationservice.models.Restaurant;
 
 import java.time.LocalDateTime;
@@ -15,10 +16,10 @@ import java.util.List;
 public class Reservation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ElementCollection
-    private List<Long> tableIds;
+
+    private Long tableId;
     @Transient
-    private List<ATable> tables;
+    private ATable table;
     private Long restaurantId;
     @Transient
     private Restaurant restaurant;
@@ -26,8 +27,9 @@ public class Reservation {
     private Long waiterId;
     private LocalDateTime reservationTime;
     private int numGuests;
-    private Long commandId;
-    @Transient
-    private Command command;
+    @ElementCollection
+    private List<Long> itemsId;
+
+private int reservationPrice;
     private boolean isCharged;
 }
