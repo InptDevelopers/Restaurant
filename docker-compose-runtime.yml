@@ -1,0 +1,136 @@
+version: "3.8"
+
+services:
+  discovery-service-docker:
+    build: ./backend/discovery-service
+    ports:
+      - "8761:8761"
+    networks:
+      - my-network
+
+  gateway-service-docker:
+    build: ./backend/gateway-service
+    ports:
+      - "8888:8888"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+
+    networks:
+      - my-network
+    depends_on:
+      - discovery-service-docker
+
+  reservation-service-docker:
+    build: ./backend/reservation-service
+    image: elmazidi/reservation-service-image:1.0.0
+    ports:
+      - "8085:8085"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+      - DATABASE_URL=http://reservation-db:3309/
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - my-network
+    depends_on:
+      - reservation-db
+      - discovery-service-docker
+
+  restaurant-service-docker:
+    build: ./backend/restaurant-service
+    ports:
+      - "8080:8080"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+      - DATABASE_URL=http://restaurant-db:3310/
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - my-network
+    depends_on:
+      - restaurant-db
+      - discovery-service-docker
+
+  table-service-docker:
+    build: ./backend/table-service
+    ports:
+      - "8081:8081"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+      - DATABASE_URL=http://table-db:3311/
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - my-network
+    depends_on:
+      - table-db
+      - discovery-service-docker
+
+  users-service-docker:
+    build: ./backend/users-service
+    ports:
+      - "8082:8082"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+      - DATABASE_URL=http://users-db:3312/
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - my-network
+    depends_on:
+      - users-db
+      - discovery-service-docker
+
+  react-frontend-docker:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - my-network
+
+  reservation-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: reservationdb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_USER: root
+    ports:
+      - "3309:3309"
+    networks:
+      - my-network
+
+  restaurant-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: restaurantdb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_USER: root
+    ports:
+      - "3310:3310"
+    networks:
+      - my-network
+
+  table-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: tabledb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_USER: root
+    ports:
+      - "3311:3311"
+    networks:
+      - my-network
+
+  users-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: usersdb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_USER: root
+    ports:
+      - "3312:3312"
+    networks:
+      - my-network
+
+networks:
+  my-network:

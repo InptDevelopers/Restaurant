@@ -14,13 +14,12 @@ import Restaurant from "../../components/restaurantcomponents/box";
 import ItemCreation from "./ItemCreation.jsx";
 
 const RestaurantMenu = () => {
-  const id = JSON.parse(localStorage.getItem("user")).idRestaurant;
   const [menu, setMenu] = useState(null);
   const [existing, SetExisting] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const pageNumbers = [];
   const [totalPages, setTotalPages] = useState(0);
-  /* const [show, setShow] = useState(false); */
+  const [show, setShow] = useState(false);
   const [pageSize, setPageSize] = useState(4);
   /* const close = () => {
     setShow(false);
@@ -31,6 +30,7 @@ const RestaurantMenu = () => {
   for (let i = 0; i <= totalPages - 1; i++) {
     pageNumbers.push(i);
   }
+  const id = JSON.parse(localStorage.getItem("user")).idRestaurant;
   useEffect(() => {
     const fetchMenu = async () => {
       try {
@@ -38,13 +38,17 @@ const RestaurantMenu = () => {
           `http://localhost:8080/api/v1/restaurants/menu/${id}?page=${currentPage}&size=${pageSize}`
         ); */
         const response = await instance.get(
-          `/RESTAURANT-SERVICE/api/v1/restaurants/${id}/menu/?page=${currentPage}&size=${pageSize}`
-        )
-        /* setMenu(response.data); */
+          `/RESTAURANT-SERVICE/api/v1/restaurants/${id}/menu?page=${currentPage}&size=${pageSize}`
+        );
+
         console.log(response.data);
-        /* setCurrentPage(response.data.currentPage);
-        setPageSize(response.data.pageSize);
-        setTotalPages(response.data.totalPages); */
+        if (response.data) {
+          setMenu(response.data);
+          setCurrentPage(response.data.currentPage);
+          setPageSize(response.data.pageSize);
+          setTotalPages(response.data.totalPages);
+        }
+
         if (response.data == null) {
           SetExisting(false);
         }
@@ -53,39 +57,7 @@ const RestaurantMenu = () => {
       }
     };
 
-    //fetchMenu();
-    setMenu({
-      items: [
-        {
-          id: 1,
-          nom: "ilyass",
-          prix: 1200,
-        },
-        {
-          id: 1,
-          nom: "ilyass",
-          prix: 1200,
-        },
-        {
-          id: 1,
-          nom: "ilyass",
-          prix: 1200,
-        },
-        {
-          id: 1,
-          nom: "ilyass",
-          prix: 1200,
-        },
-        {
-          id: 1,
-          nom: "ilyass",
-          prix: 1200,
-        },
-      ],
-    });
-    setCurrentPage(0);
-    setPageSize(5);
-    setTotalPages(1);
+    fetchMenu();
   }, [id, currentPage, pageSize]);
 
   const [restaurant, setRestaurant] = useState({
@@ -156,12 +128,22 @@ const RestaurantMenu = () => {
         <h1 className="flex flex-col gap-1 text-center text-2xl font-bold">
           My Menu
         </h1>
-        <Button color="primary" variant="light" isIconOnly onClick={handleEdit}>
-          <EditIcon className="text-xl" />
+        <Button
+          color="primary"
+          variant="light"
+          isIconOnly
+          onPress={() => {
+            setShow(true);
+          }}
+        >
+          <ItemCreation
+            content={<EditIcon className="text-xl" />}
+            title={"Add Items"}
+          />
         </Button>
       </div>
-      {/* {existing && menu ? ( */}
-      {false ? (
+      {existing && menu ? (
+        /*  {false ? ( */
         <div className="restaurant-menu md:w-[70%]">
           <div className="menu-items">
             <ul>
@@ -169,7 +151,7 @@ const RestaurantMenu = () => {
                 <li key={item.id} className="menu-item ">
                   <div>
                     <h3>{item.nom}</h3>
-                    <p>Price: ${item.prix}</p>
+                    <p>Price: {item.price} $</p>
                   </div>
                 </li>
               ))}
@@ -201,7 +183,7 @@ const RestaurantMenu = () => {
           <button className="Creation" onClick={() => setShow(true)}>
             Create your Menu
           </button> */}
-          <ItemCreation />
+          <ItemCreation content={"Create Menu"} title={"Create Menu"} />
         </div>
       )}
     </div>

@@ -3,7 +3,7 @@ spring:
     gateway:
       globalcors:
         corsConfigurations:
-          '[/**]':
+          "[/**]":
             allowedOrigins: "*"
             allowedHeaders: "*"
             allowedMethods:
@@ -11,3 +11,24 @@ spring:
               - POST
               - PUT
               - DELETE
+      # routes:
+      #   - id: r1
+      #     uri: http://reservation-service-docker:8085/
+      #     predicates:
+      #       - Path=/RESERVATION-SERVICE/**
+      #   - id: r2
+      #     uri: http://restaurant-service-docker:8080/
+      #     predicates:
+      #       - Path=/RESTAURANT-SERVICE/**
+      #   - id: r3
+      #     uri: http://table-service-docker:8081/
+      #     predicates:
+      #       - Path=/TABLE-SERVICE/**
+      #   - id: r4
+      #     uri:  http://users-service-docker:8082/
+      #     predicates:
+      #       - Path=/USERS-SERVICE/**
+
+server:
+  port: 8888
+

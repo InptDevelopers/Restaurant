@@ -25,7 +25,7 @@ public class MenuController {
 
     }
     @PostMapping("/restaurants/menu")
-public ResponseEntity saveMenu(@RequestBody MenucreationDTO menucreationDTO){
+    public ResponseEntity saveMenu(@RequestBody MenucreationDTO menucreationDTO){
         menuService.createMenu(menucreationDTO);
         return new ResponseEntity(HttpStatus.CREATED);
 
@@ -34,6 +34,7 @@ public ResponseEntity saveMenu(@RequestBody MenucreationDTO menucreationDTO){
     public List<ItemDTO> getitems(@RequestBody List<Long> itemsId){
         return menuService.getitems(itemsId);
     }
+
 
 
 }

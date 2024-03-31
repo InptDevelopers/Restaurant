@@ -1,6 +1,5 @@
 package org.inptdevelopers.reservationservice.security;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,17 +50,18 @@ public class SecurityConfig {
                 .build();
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.setExposedHeaders(List.of("x-auth-token"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
-    }
+    // @Bean
+    // CorsConfigurationSource corsConfigurationSource() {
+    // CorsConfiguration corsConfiguration = new CorsConfiguration();
+    // corsConfiguration.addAllowedHeader("*");
+    // corsConfiguration.addAllowedMethod("*");
+    // corsConfiguration.addAllowedOrigin("*");
+    // corsConfiguration.setExposedHeaders(List.of("x-auth-token"));
+    // UrlBasedCorsConfigurationSource source = new
+    // UrlBasedCorsConfigurationSource();
+    // source.registerCorsConfiguration("/**", corsConfiguration);
+    // return source;
+    // }
 
     @Bean
     JwtDecoder jwtDecoder() {

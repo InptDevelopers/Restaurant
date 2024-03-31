@@ -5,6 +5,7 @@ import TableComponent from "../../components/table-components/TableComponent";
 import ZoneComponent from "../../components/table-components/ZoneComponent";
 import "../../styles/table-styles/table.css";
 import ConfirmationPopup from "../../components/table-components/ConfirmationPopup";
+import instance from "../../../axios";
 const TablePage = () => {
   const [zones, setZones] = useState([]);
   const [selectedZone, setSelectedZone] = useState(null);
@@ -18,19 +19,21 @@ const TablePage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showAddZoneForm, setShowAddZoneForm] = useState(false);
   const [newZoneDescription, setNewZoneDescription] = useState("");
+  const restaurantId = JSON.parse(localStorage.getItem("user")).idRestaurant;
+
   const [newZone, setNewZone] = useState({
     description: "",
     maxSize: 1,
-    restaurantId: 1,
+    restaurantId: restaurantId,
   });
   const [showConfirmationPopup, setShowConfirmationPopup] = useState(false);
   const [deleteZoneId, setDeleteZoneId] = useState(null);
   useEffect(() => {
-    axios
+    instance
       .get(
-        `http://localhost:8080/api/v1/zones/?page=${
+        `/TABLE-SERVICE/api/v1/zones/?page=${
           zonePage - 1
-        }&size=${pageSize}&restaurantId=1`
+        }&size=${pageSize}&restaurantId=${restaurantId}`
       )
       .then((response) => {
         setZones(response.data.content);
@@ -84,8 +87,8 @@ const TablePage = () => {
 
   const handleDeleteTable = (tableId) => {
     setLoading(true);
-    axios
-      .delete(`http://localhost:8080/api/v1/tables/${tableId}`)
+    instance
+      .delete(`/TABLE-SERVICE/api/v1/tables/${tableId}`)
       .then((response) => {
         setLoading(false);
         setSuccessMessage("Table deleted successfully.");
@@ -107,7 +110,7 @@ const TablePage = () => {
   const handleAddTableToZone = () => {
     setLoading(true);
     axios
-      .post(`http://localhost:8080/api/v1/zones/${selectedZone.id}/tables`)
+      .post(`/TABLE-SERVICE/api/v1/zones/${selectedZone.id}/tables`)
       .then((response) => {
         setLoading(false);
         setSuccessMessage("Table added successfully.");
@@ -142,7 +145,7 @@ const TablePage = () => {
     }
     setLoading(true);
     axios
-      .post("http://localhost:8080/api/v1/zones", newZone)
+      .post("/TABLE-SERVICE/api/v1/zones", newZone)
       .then((response) => {
         setLoading(false);
         setSuccessMessage("Zone added successfully.");
@@ -183,7 +186,7 @@ const TablePage = () => {
     setLoading(true);
     axios
       .delete(
-        `http://localhost:8080/api/v1/zones/${zoneId}?forceDelete=${forceDelete}`
+        `/TABLE-SERVICE/api/v1/zones/${zoneId}?forceDelete=${forceDelete}`
       )
       .then((response) => {
         setLoading(false);
@@ -216,7 +219,7 @@ const TablePage = () => {
   const handleUpdateZone = (zoneId, updatedData) => {
     setLoading(true);
     axios
-      .put(`http://localhost:8080/api/v1/zones/${zoneId}`, updatedData)
+      .put(`/TABLE-SERVICE/api/v1/zones/${zoneId}`, updatedData)
       .then((response) => {
         setLoading(false);
         const zone = zones.find((zone) => zone == zoneId);

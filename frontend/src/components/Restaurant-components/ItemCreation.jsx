@@ -10,14 +10,16 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useParams } from "react-router-dom";
+import instance from "../../../axios.js";
+import { EditIcon } from "../../components/users/client/EditIcon.jsx";
 
-export default function ItemCreation() {
+export default function ItemCreation({ content, title }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [formData, setFormData] = useState({
     idrestaurant: 1,
-    items: [{ nom: "", prix: 0 }],
+    items: [{ nom: "", price: 0 }],
   });
-  const { id } = useParams();
+  const id = JSON.parse(localStorage.getItem("user")).idRestaurant;
   const handleChange = (index, e) => {
     const { name, value } = e.target;
     const updatedItems = [...formData.items];
@@ -30,7 +32,7 @@ export default function ItemCreation() {
   const addNewItem = () => {
     setFormData({
       ...formData,
-      items: [...formData.items, { nom: "", prix: 0, id: Date.now() }],
+      items: [...formData.items, { nom: "", price: 0, id: Date.now() }],
     });
   };
   const removeItem = (id) => {
@@ -42,17 +44,17 @@ export default function ItemCreation() {
     e.preventDefault();
 
     try {
-      const filteredItems = formData.items.map(({ nom, prix }) => ({
+      const filteredItems = formData.items.map(({ nom, price }) => ({
         nom,
-        prix,
+        price,
       }));
       // Include id from path and filtered items in the request data
       const requestData = {
         idrestaurant: id,
         items: filteredItems,
       };
-      await axios.post(
-        "http://localhost:8080/api/v1/restaurants/menu",
+      await instance.post(
+        "/RESTAURANT-SERVICE/api/v1/restaurants/menu",
         requestData
       );
       window.location.reload();
@@ -65,16 +67,14 @@ export default function ItemCreation() {
 
   return (
     <div className="flex justify-center">
-      <Button className="bg-black text-white "size="lg" onPress={onOpen}>
-        Create your Menu
+      <Button className="bg-black text-white " size="lg" onPress={onOpen}>
+        {content}
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Modal Title
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">{title}</ModalHeader>
               <ModalBody>
                 <div className="restaurant-form">
                   <div className="form-container">
@@ -95,8 +95,8 @@ export default function ItemCreation() {
                             Price:
                             <input
                               type="number"
-                              name="prix"
-                              value={item.prix}
+                              name="price"
+                              value={item.price}
                               onChange={(e) => handleChange(index, e)}
                               required
                             />
@@ -121,8 +121,8 @@ export default function ItemCreation() {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={handleSubmit}>
-                  Create Menu
+                <Button color="primary" onClick={handleSubmit}>
+                  {title}
                 </Button>
               </ModalFooter>
             </>

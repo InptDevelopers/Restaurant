@@ -12,9 +12,6 @@
   color: white;
   font-weight: bold;
 } */
-.menu-items {
-  padding: 20px;
-}
 
 .menu-item input {
   width: 50px;
@@ -33,8 +30,8 @@
 
 .menu-item {
   list-style-type: none;
-  margin-bottom: 20px;
-  padding: 20px;
+  margin-bottom: 10px;
+  padding: 10px;
   border-radius: 10px;
   /*  background: linear-gradient(45deg, #ffffff, #6f860b); */
   background-color: white;

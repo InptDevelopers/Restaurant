@@ -16,7 +16,7 @@ FROM openjdk:17-alpine
 # Définitir la répertoire de travaille
 WORKDIR /app
 
-EXPOSE 9999
+EXPOSE 8082
 
 # Copie du fichier JAR généré depuis l'étape de construction
 COPY --from=build /app/myapp/target/spring-boot-data-jpa*.jar app.jar

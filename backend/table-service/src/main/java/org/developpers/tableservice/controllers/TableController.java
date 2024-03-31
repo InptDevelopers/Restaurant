@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/tables")
-@CrossOrigin("*")
 
 @AllArgsConstructor
 public class TableController {

@@ -80,7 +80,7 @@ const RestaurantAdmin = () => {
           </h1>
           <Button
             color="primary"
-            variant="light"
+            className="bg-black text-white "
             isIconOnly
             onClick={handleEdit}
           >

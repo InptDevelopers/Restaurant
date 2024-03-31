@@ -22,7 +22,7 @@ import java.util.List;
 
 @RequestMapping("/api/v1/reservations")
 @AllArgsConstructor
-@CrossOrigin("*")
+
 /* @Slf4j */
 public class ReservationController {
     private final ReservationServiceImpl reservationService;

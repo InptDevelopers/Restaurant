@@ -15,7 +15,7 @@ import RestaurantAdmin from "./pages/restaurantpages/RestaurantAdmin";
 
 function App() {
   return (
-    <div className="h-screen max-w-screen flex flex-col">
+    <div className="min-h-screen max-w-screen flex flex-col">
       <Router>
         <Routes>
           <Route element={<RequiredAuth />}>
