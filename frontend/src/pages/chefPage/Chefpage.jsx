@@ -5,7 +5,7 @@ const ChefPage = () => {
   return (
     <div className='flex justify-center items-center h-full'>
         <div className='w-[700px]'>
-            <TableChef/>
+          <TableChef/>
         </div>
     </div>
   )

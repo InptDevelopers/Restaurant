@@ -20,9 +20,10 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private  final RestaurantMapper restaurantMapper;
 
-    public void createRestaurant(Restaurant restaurant) {
+    public Restaurant createRestaurant(Restaurant restaurant) {
 
-        restaurantRepository.save(restaurant);
+       return restaurantRepository.save(restaurant);
+
     }
     public Restaurant getRestaurant(Long id) throws RestaurantNotFoundException {
         return restaurantRepository.findById(id)

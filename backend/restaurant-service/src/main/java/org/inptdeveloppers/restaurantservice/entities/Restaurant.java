@@ -2,6 +2,7 @@ package org.inptdeveloppers.restaurantservice.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.inptdeveloppers.restaurantservice.models.Admin;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Data
 public class Restaurant {
     @Id

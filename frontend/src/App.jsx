@@ -4,42 +4,43 @@ import TablePage from "./pages/table-page/TablePage";
 import PaginationComponent from "./pages/restaurantpages/restaurant";
 import RestauList from "./pages/restaurantpages/restaurantclient";
 import RestaurantDetails from "./pages/restaurantpages/restaurantdetails";
-import Menu from "./components/restaurantcomponents/Menu";
 import RestaurantDetailsclient from "./pages/restaurantpages/Restaurantdetailsclient";
 import ClientPage from "./pages/clientPage/ClientPage";
 import ChefPage from "./pages/chefPage/Chefpage";
 import WaiterPage from "./pages/waiterPage/WaiterPage";
 import Login from "./pages/login/Login";
-import Navbar from "./components/restaurantcomponents/navbar";
 import RequiredAuth from "./components/RequiredAuth/RequiredAuth";
+import SignUp from "./pages/SignUp/SignUp";
+import RestaurantAdmin from "./pages/restaurantpages/RestaurantAdmin";
 
 function App() {
   return (
     <div className="h-screen w-screen ">
-      <Navbar />
       <Router>
         <Routes>
-          <Route path="/" element={<TablePage />} />
-          <Route path="/login" element={<Login />} />
-
           <Route element={<RequiredAuth />}>
-            <Route path="/admin/clients" element={<ClientPage />} />
-            <Route path="/chefs" element={<ChefPage />} />
-            <Route path="/waiters" element={<WaiterPage />} />
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
 
+            {/* clients routes */}
+            <Route path="/restaurants" element={<RestauList />} />
+
+            {/* admin routes */}
+            <Route path="/admin/restaurant" element={<RestaurantAdmin />} />
+
+            {/* 
+            <Route path="/admin/clients" element={<ClientPage />} />
+            <Route path="/admin/chefs" element={<ChefPage />} />
+            <Route path="/admin/waiters" element={<WaiterPage />} />
+            <Route path="/admin/table" element={<TablePage />} />
             <Route path="/restaurantadmin" element={<PaginationComponent />} />
-            <Route
-              path="/restaurant/:id"
-              element={<RestaurantDetails></RestaurantDetails>}
-            />
+            <Route path="/restaurant/:id" element={<RestaurantDetails />} /> */}
           </Route>
 
-          <Route path="/restaurant" element={<RestauList />} />
-
-          <Route
+          {/* <Route
             path="/restaurantclient/:id"
-            element={<RestaurantDetailsclient></RestaurantDetailsclient>}
-          />
+            element={<RestaurantDetailsclient />}
+          /> */}
         </Routes>
       </Router>
     </div>

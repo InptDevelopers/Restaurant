@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 public class Admin extends AppUser{
-
+    private Long idRestaurant;
 }

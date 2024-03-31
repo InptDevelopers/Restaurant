@@ -1,7 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import instance from "../../../axios";
 import Login from "../../pages/login/Login";
+import Navbar from "../restaurantcomponents/navbar";
+import Error403Page from "../../pages/Error403Page";
+import { useAuth } from "./AuthProvider";
+import SignUp from "../../pages/SignUp/SignUp";
 
 function RequiredAuth() {
   const navigate = useNavigate();
@@ -10,24 +14,32 @@ function RequiredAuth() {
   const [loading, setLoading] = useState(false);
   const testUserPermission = async () => {
     const accessToken = localStorage.getItem("accessToken");
-
     if (accessToken) {
       try {
         let path;
-        if (location.pathname.startsWith("/admin")) {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user.role === "ADMIN") {
           path = "/verifyAdmin";
         } else {
           path = "/verifyClient";
         }
-        const res = await instance.get(`/USERS-SERVICE/api/v1/auth${path}`, {
+
+        await instance.get(`/USERS-SERVICE/api/v1/auth${path}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
 
-        if (location.pathname === "/login") {
-          navigate("/home");
+        if (
+          location.pathname === "/login" ||
+          location.pathname === "/register"
+        ) {
+          if (user.role === "ADMIN") navigate("/admin/restaurant");
+          if (user.role === "CLIENT") navigate("/restaurants");
         }
+
+        console.log(location.pathname);
+
         setIsSignPage(false);
       } catch (err) {
         setIsSignPage(true);
@@ -45,12 +57,21 @@ function RequiredAuth() {
 
   return isSignPage ? (
     localStorage.getItem("accessToken") == null ? (
-      <Login />
+      location.pathname === "/register" ? (
+        <SignUp />
+      ) : (
+        <Login />
+      )
     ) : (
-      <div>403</div>
+      <Error403Page />
     )
   ) : (
-    loading && <Outlet />
+    loading && (
+      <>
+        <Navbar />
+        <Outlet />
+      </>
+    )
   );
 }
 

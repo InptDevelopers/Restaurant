@@ -46,12 +46,12 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(ar -> ar.anyRequest().permitAll())
+                .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
                 .oauth2ResourceServer(oa -> oa.jwt(Customizer.withDefaults()))
                 .build();
     }
 
-    @Bean
+/*    @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedHeader("*");
@@ -60,8 +60,8 @@ public class SecurityConfig {
         corsConfiguration.setExposedHeaders(List.of("x-auth-token"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
-    }
+        cereturn sour;
+    }*/
 
     @Bean
     JwtDecoder jwtDecoder() {

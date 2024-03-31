@@ -3,6 +3,7 @@ import { Checkbox, Input, Link, Button } from "@nextui-org/react";
 import { MailIcon } from "./MailIcon.jsx";
 import { LockIcon } from "./LockIcon.jsx";
 import axios from "axios";
+import { Link as Li } from "react-router-dom";
 import { useAuth } from "../../components/RequiredAuth/AuthProvider.jsx";
 
 export default function Login() {
@@ -29,6 +30,7 @@ export default function Login() {
           }
           label="Email"
           placeholder="Enter your email"
+          type="email"
           variant="bordered"
           value={email}
           onValueChange={setEmail}
@@ -59,6 +61,9 @@ export default function Login() {
         <Button type="submit" color="primary">
           Login
         </Button>
+        <Link color="primary" size="sm" className="self-end">
+          <Li to="/register">You don&apos;t have an account?</Li>
+        </Link>
       </form>
     </div>
   );
