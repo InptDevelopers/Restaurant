@@ -1,6 +1,7 @@
 package com.example.usersservice.controllers;
 
 import com.example.usersservice.entities.Waiter;
+import com.example.usersservice.enums.Role;
 import com.example.usersservice.exceptions.UserException;
 import com.example.usersservice.exceptions.WaiterException;
 import com.example.usersservice.services.WaiterService;
@@ -29,6 +30,7 @@ public class WaiterController {
     // Create a waiter
     @PostMapping
     public ResponseEntity<Waiter> createWaiter(@RequestBody Waiter waiter) {
+        waiter.setRole(Role.WAITER);
         Waiter savedWaiter = (Waiter) userService.createUser(waiter);
         return new ResponseEntity<>(savedWaiter, HttpStatus.CREATED);
     }

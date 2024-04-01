@@ -81,13 +81,13 @@ public class AuthController {
     public void validateClient() {
     }
 
-
     public ResponseEntity<Map<String, Object>> loginUser(
             String email,
             String password,
             boolean firstTime) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password));
+        System.out.println("passed here");
         String subject = authentication.getName();
         String scope = authentication.getAuthorities()
                 .stream().map(aut -> aut.getAuthority())
@@ -112,8 +112,9 @@ public class AuthController {
         log.info("token generated " + jwtAccessToken);
         // create restaurant
         if (user.getRole() == Role.ADMIN && firstTime) {
-            Restaurant restaurant = restaurantRestClient.createRestaurant(Restaurant.builder().idOwner(user.getId()).build(), "Bearer "+jwtAccessToken);
-            ((Admin)user).setIdRestaurant(restaurant.getId());
+            Restaurant restaurant = restaurantRestClient
+                    .createRestaurant(Restaurant.builder().idOwner(user.getId()).build(), "Bearer " + jwtAccessToken);
+            ((Admin) user).setIdRestaurant(restaurant.getId());
             userRepository.save(user);
         }
         return new ResponseEntity<>(idToken, HttpStatus.OK);

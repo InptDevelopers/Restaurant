@@ -3,6 +3,7 @@ package com.example.usersservice.controllers;
 import com.example.usersservice.services.ChefService;
 import com.example.usersservice.services.UserService;
 import com.example.usersservice.entities.Chef;
+import com.example.usersservice.enums.Role;
 import com.example.usersservice.exceptions.ChefException;
 import com.example.usersservice.exceptions.UserException;
 import lombok.AllArgsConstructor;
@@ -28,36 +29,40 @@ public class ChefController {
     // Create a chef
     @PostMapping
     public ResponseEntity<Chef> createChef(@RequestBody Chef chef) {
+        chef.setRole(Role.CHEF);
         Chef savedChef = (Chef) userService.createUser(chef);
         return new ResponseEntity<>(savedChef, HttpStatus.CREATED);
     }
+
     @PostMapping("/{id}/commands")
     public ResponseEntity<Chef> addCommandToChef(@RequestBody List<Long> commands, @PathVariable Long id) {
         try {
-            Chef chef=chefService.getChef(id);
+            Chef chef = chefService.getChef(id);
             commands.forEach(chef::addCommands);
             Chef savedChef = (Chef) userService.createUser(chef);
             return new ResponseEntity<>(savedChef, HttpStatus.CREATED);
-        }catch (ChefException e){
+        } catch (ChefException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping("/{id}/commands")
     public ResponseEntity<List<Long>> getCommandsChef(@PathVariable Long id) {
         try {
-            Chef chef=chefService.getChef(id);
+            Chef chef = chefService.getChef(id);
             return new ResponseEntity<>(chef.getCommands(), HttpStatus.CREATED);
-        }catch (ChefException e){
+        } catch (ChefException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @DeleteMapping ("/{clientId}/commands/{commandId}")
+
+    @DeleteMapping("/{clientId}/commands/{commandId}")
     public ResponseEntity<HttpStatus> deleteCommandChef(@PathVariable Long clientId, @PathVariable Long commandId) {
         try {
-            Chef chef=chefService.getChef(clientId);
+            Chef chef = chefService.getChef(clientId);
             chef.getCommands().remove(commandId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (ChefException e){
+        } catch (ChefException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -93,7 +98,7 @@ public class ChefController {
         try {
             userService.deleteUser(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (UserException e) {
+        } catch (UserException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -101,8 +106,8 @@ public class ChefController {
     // Get chefs with pagination
     @GetMapping
     public ResponseEntity<Page<Chef>> getAllChefs(@RequestParam(defaultValue = "1") int page,
-                                                  @RequestParam(defaultValue = "10") int size) {
-        Page<Chef> chefs = chefService.getAllChefs(page-1, size);
+            @RequestParam(defaultValue = "10") int size) {
+        Page<Chef> chefs = chefService.getAllChefs(page - 1, size);
         return new ResponseEntity<>(chefs, HttpStatus.OK);
     }
 }

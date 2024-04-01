@@ -12,9 +12,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@AllArgsConstructor @NoArgsConstructor @Getter @Setter @Builder @ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
+@ToString
 public class Reservation {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long tableId;
@@ -30,6 +36,6 @@ public class Reservation {
     @ElementCollection
     private List<Long> itemsId;
 
-private int reservationPrice;
+    private int reservationPrice;
     private boolean isCharged;
 }
