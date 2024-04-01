@@ -1,4 +1,4 @@
-package org.inptdevelopers.reservationservice.dtos;
+ package org.inptdevelopers.reservationservice.dtos;
 
 import lombok.*;
 import org.inptdevelopers.reservationservice.models.Items;

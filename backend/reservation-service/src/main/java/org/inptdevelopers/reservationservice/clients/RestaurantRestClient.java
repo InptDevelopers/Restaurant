@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -26,5 +27,5 @@ public interface RestaurantRestClient {
     }
 
     @PostMapping("api/v1/restaurants/menu/items")
-     List<Items> getItems(@RequestBody List<Long> items);
+     List<Items> getItems(@RequestBody List<Long> items,@RequestHeader("Authorization") String accessToken);
 }

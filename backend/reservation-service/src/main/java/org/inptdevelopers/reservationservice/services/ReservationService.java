@@ -11,11 +11,11 @@ import org.inptdevelopers.reservationservice.models.ATable;
 import java.util.List;
 
 public interface ReservationService {
-    public List<Reservation> getAllReservations(int page, int size);
+    
   /*  public List<ReservationDTO> getAllReservationsByRestaurantId(Long id, int page, int size);
     public List<ReservationDTO> getAllReservationsByWaiterId(Long idWaiter, int page, int size);*/
-    public List<ReservationDTO> getAllReservationsByClientId(Long clientId, int page, int size);
-    public ReservationDTO createReservation(ReservationRequestDTO reservationDTO);
+    public List<ReservationDTO> getAllReservationsByClientId(Long clientId, int page, int size,String token);
+
     public Reservation reservationcreate(Long id, String token, Long restaurantId, ReservationCreationDTO reservationCreationDTO);
    /* public void deleteReservation(Long id);
     /*

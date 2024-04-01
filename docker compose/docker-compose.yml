@@ -1,0 +1,151 @@
+version: "3.8"
+
+services:
+  # config-service-docker:
+  #   image: elmazidi/config-service-image:1.0.0
+  #   ports:
+  #     - "9999:9999"
+  #   environment:
+  #     - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+  #   networks:
+  #     - my-network
+  #   depends_on:
+  #     - config-db
+
+  discovery-service-docker:
+    image: elmazidi/discovery-service-image:1.0.0
+    ports:
+      - "8761:8761"
+    networks:
+      - my-network
+
+  gateway-service-docker:
+    image: elmazidi/gateway-service-image:1.0.0
+    ports:
+      - "8888:8888"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+
+    networks:
+      - my-network
+    depends_on:
+      - config-service-docker
+      - discovery-service-docker
+
+  reservation-service-docker:
+    image: elmazidi/reservation-service-image:1.0.0
+    ports:
+      - "8085:8085"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+      - DATABASE_URL=http://reservation-db:3309/
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - my-network
+    depends_on:
+      - reservation-db
+      - config-service-docker
+      - discovery-service-docker
+
+  restaurant-service-docker:
+    image: elmazidi/restaurant-service-image:1.0.0
+    ports:
+      - "8080:8080"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+      - DATABASE_URL=http://restaurant-db:3310/
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - my-network
+    depends_on:
+      - restaurant-db
+      - config-service-docker
+      - discovery-service-docker
+
+  table-service-docker:
+    image: elmazidi/table-service-image:1.0.0
+    ports:
+      - "8081:8081"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+      - DATABASE_URL=http://table-db:3311/
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - my-network
+    depends_on:
+      - table-db
+      - config-service-docker
+      - discovery-service-docker
+
+  users-service-docker:
+    image: elmazidi/users-service-image:1.0.0
+    ports:
+      - "8082:8082"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service-docker:8761/eureka/
+      - DATABASE_URL=http://users-db:3312/
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - my-network
+    depends_on:
+      - users-db
+      - config-service-docker
+      - discovery-service-docker
+
+  react-frontend-docker:
+    image: elmazidi/react-frontend-image:1.0.0
+    ports:
+      - "5173:5173"
+    networks:
+      - my-network
+
+  reservation-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: reservationdb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_USER: root
+    ports:
+      - "3309:3309"
+    networks:
+      - my-network
+
+  restaurant-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: restaurantdb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_USER: root
+    ports:
+      - "3310:3310"
+    networks:
+      - my-network
+
+  table-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: tabledb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_USER: root
+    ports:
+      - "3311:3311"
+    networks:
+      - my-network
+
+  users-db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: usersdb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_USER: root
+    ports:
+      - "3312:3312"
+    networks:
+      - my-network
+
+networks:
+  my-network:
