@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import instance from "../../../axios";
 import Login from "../../pages/login/Login";
 import Navbar from "../restaurantcomponents/navbar";
@@ -37,6 +37,10 @@ function RequiredAuth() {
         ) {
           if (user.role === "ADMIN") navigate("/admin/restaurant");
           if (user.role === "CLIENT") navigate("/restaurants");
+        }
+
+        if (location.pathname.startsWith("/admin") && user.role != "ADMIN") {
+          navigate("/403");
         }
         console.log(location.pathname);
 

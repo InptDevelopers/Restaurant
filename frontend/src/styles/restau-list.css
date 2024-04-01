@@ -43,6 +43,8 @@
 .restaurant-list {
   display: flex;
   flex-wrap: wrap;
+
+  margin-top: 50px;
   justify-content: space-evenly; /* Allow wrapping to next line */
   gap: 20px; /* Spacing between restaurants */
 }
@@ -89,7 +91,6 @@
 .choose2 {
   color: white;
   padding: 1rem;
-  background-color: red;
   border-radius: 5px;
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -106,4 +107,8 @@
 .popup {
   display: flex;
   justify-content: center;
+}
+
+.main-container {
+  flex: 1;
 }

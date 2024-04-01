@@ -4,14 +4,15 @@ import {MailIcon} from './MailIcon.jsx';
 import {LockIcon} from './LockIcon.jsx';
 import {PlusIcon} from "./PlusIcon.jsx";
 import {EyeIcon} from "./EyeIcon.jsx";
+import instance from "../../../../axios.js";
 
-import axios from 'axios';
+
 
 const ModalViewClient = ({id}) => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     useEffect(()=>{
       const getClient=async()=>{
-        const res=await axios.get(`http://localhost:8082/api/v1/clients/${id}`)
+        const res=await instance.get(`/USERS-SERVICE/api/v1/clients/${id}`)
         const {name,email,bankAccount,reservations}=res.data;
         setName(name)
         setEmail(email)

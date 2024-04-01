@@ -4,6 +4,7 @@ import {MailIcon} from './MailIcon.jsx';
 import {LockIcon} from './LockIcon.jsx';
 import {PlusIcon} from "./PlusIcon.jsx";
 import {EditIcon} from './EditIcon.jsx';
+import instance from "../../../../axios.js";
 
 
 import axios from 'axios';
@@ -35,7 +36,7 @@ const ModalEditClient = ({id,mutate}) => {
         }
         console.log(data);
         if(email&&name&&bankAccount){
-            const res=await axios.put(`http://localhost:8082/api/v1/clients/${id}`,data)
+            const res=await instance.put(`/USERS-SERVICE/api/v1/clients/${id}`,data)
             console.log(res);
             if(res.status==200){
                 mutate()
@@ -46,7 +47,7 @@ const ModalEditClient = ({id,mutate}) => {
     }
     const handleDeleteReservation=async(reservation)=>{
       console.log(reservation);
-      const res=await axios.delete(`http://localhost:8082/api/v1/clients/${id}/reservations/${reservation}`)
+      const res=await instance.delete(`/USERS-SERVICE/api/v1/clients/${id}/reservations/${reservation}`)
       console.log(res);
       if(res.status==204){
           mutate()

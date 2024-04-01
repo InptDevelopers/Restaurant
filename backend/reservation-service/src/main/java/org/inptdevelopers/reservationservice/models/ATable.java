@@ -8,4 +8,6 @@ import java.util.List;
 public class ATable {
     private Long id;
     private TableStatus status;
+    private List<Long> reservationIds ;
+
 }

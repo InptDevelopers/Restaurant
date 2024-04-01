@@ -34,9 +34,11 @@ import ModalClient from "./ModalAddClient.jsx";
 import ModalViewClient from "./ModalViewClient.jsx"
 import ModalEditClient from "./ModalEditClient.jsx";
 import ModalDeleteClient from "./ModalDeleteClient.jsx";
+import instance from "../../../../axios.js"
 
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+// const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const fetcher = (url) => instance.get(url).then((res) => res.data);
 
 const statusColorMap = {
   active: "success",
@@ -59,7 +61,7 @@ export default function TableClient() {
   });
 
   const [page, setPage] = React.useState(1);
-  const {data:users, isLoading,mutate} = useSWR(`http://localhost:8082/api/v1/clients?page=${page}&size=${rowsPerPage}`, fetcher, {
+  const {data:users, isLoading,mutate} = useSWR(`/USERS-SERVICE/api/v1/clients?page=${page}&size=${rowsPerPage}`, fetcher, {
     keepPreviousData: true,
   });
   console.log(users);

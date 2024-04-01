@@ -3,20 +3,24 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import {MailIcon} from './MailIcon.jsx';
 import {LockIcon} from './LockIcon.jsx';
 import {PlusIcon} from "./PlusIcon.jsx";
-import axios from 'axios';
+
+import instance from '../../../../axios.js'
 
 const ModalWaiter = ({mutate}) => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [email,setEmail]=useState("");
     const [name,setName]=useState("");
     const [bankAccount,setBankAccount]=useState("")
-    const handleSubmit=async()=>{
+    const [password,setPassword]=useState("")
+
+    const handleSubmit=async(e)=>{
+        e.preventDefault()
         const data={
-            name:name,email:email,bankAccount:bankAccount
+            name:name,email:email,bankAccount:bankAccount,password:password
         }
         console.log(data);
         if(email&&name&&bankAccount){
-            const res=await axios.post("http://localhost:8082/api/v1/waiters",data)
+            const res=await instance.post("/USERS-SERVICE/api/v1/waiters",data)
             console.log(res);
             if(res.status==201){
                 setEmail("")
@@ -81,6 +85,18 @@ const ModalWaiter = ({mutate}) => {
                                 value={bankAccount}
                                 variant="bordered"
                                 onValueChange={setBankAccount}
+                            />
+                            <Input
+                                required
+                                endContent={
+                                <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                                }
+                                label="Password"
+                                placeholder="Enter Waiter Password"
+                                type="password"
+                                value={password}
+                                variant="bordered"
+                                onValueChange={setPassword}
                             />
                         </ModalBody>
                         <ModalFooter>

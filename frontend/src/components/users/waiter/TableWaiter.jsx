@@ -34,9 +34,13 @@ import ModalWaiter from "./ModalAddWaiter.jsx";
 import ModalViewWaiter from "./ModalViewWaiter.jsx"
 import ModalEditWaiter from "./ModalEditWaiter.jsx";
 import ModalDeleteWaiter from "./ModalDeleteWaiter.jsx";
+import instance from "../../../../axios.js"
 
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+// const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const fetcher = (url) => instance.get(url).then((res) => res.data);
+
 
 const statusColorMap = {
   active: "success",
@@ -59,7 +63,7 @@ export default function TableWaiter() {
   });
 
   const [page, setPage] = React.useState(1);
-  const {data:users, isLoading,mutate} = useSWR(`http://localhost:8082/api/v1/waiters?page=${page}&size=${rowsPerPage}`, fetcher, {
+  const {data:users, isLoading,mutate} = useSWR(`/USERS-SERVICE/api/v1/waiters?page=${page}&size=${rowsPerPage}`, fetcher, {
     keepPreviousData: true,
   });
   console.log(users);

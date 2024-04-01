@@ -9,5 +9,5 @@ import java.util.List;
 public class TableDTO {
     private Long id;
     private TableStatus status;
-
+    List<Long> reservationsIds;
 }

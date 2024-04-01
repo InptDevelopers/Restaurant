@@ -11,9 +11,10 @@ const TablePage = () => {
   const [selectedZone, setSelectedZone] = useState(null);
   const [tables, setTables] = useState([]);
   const [occupiedFilter, setOccupiedFilter] = useState("all");
-  const [zonePage, setZonePage] = useState(1);
   const [tablePage, setTablePage] = useState(1);
   const [pageSize] = useState(7);
+  const [zonePage, setZonePage] = useState(1);
+
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -109,7 +110,7 @@ const TablePage = () => {
 
   const handleAddTableToZone = () => {
     setLoading(true);
-    axios
+    instance
       .post(`/TABLE-SERVICE/api/v1/zones/${selectedZone.id}/tables`)
       .then((response) => {
         setLoading(false);
@@ -144,7 +145,7 @@ const TablePage = () => {
       return;
     }
     setLoading(true);
-    axios
+    instance
       .post("/TABLE-SERVICE/api/v1/zones", newZone)
       .then((response) => {
         setLoading(false);
@@ -184,7 +185,7 @@ const TablePage = () => {
 
   const handleDeleteZone = (zoneId, forceDelete) => {
     setLoading(true);
-    axios
+    instance
       .delete(
         `/TABLE-SERVICE/api/v1/zones/${zoneId}?forceDelete=${forceDelete}`
       )
@@ -218,7 +219,7 @@ const TablePage = () => {
   };
   const handleUpdateZone = (zoneId, updatedData) => {
     setLoading(true);
-    axios
+    instance
       .put(`/TABLE-SERVICE/api/v1/zones/${zoneId}`, updatedData)
       .then((response) => {
         setLoading(false);
@@ -246,7 +247,7 @@ const TablePage = () => {
   };
   return (
     <div className="md:flex justify-center p-6  flex-1 items-center">
-      <div className="absolute right-0 top-0 mr-5 mt-5">
+      <div className="absolute right-0 top-10 mr-5 mt-5">
         {loading && (
           <div className="flex justify-center">
             <div className="spinner"></div>

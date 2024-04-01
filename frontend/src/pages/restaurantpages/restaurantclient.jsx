@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import RestaurantList from "../../components/restaurantcomponents/Restau-list";
 import axios from "axios";
 import Navbar from "../../components/restaurantcomponents/navbar";
+import instance from "../../../axios";
 import "../../styles/restau-list.css";
 const RestauList = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -14,8 +15,8 @@ const RestauList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/restaurants?page=${currentPage}&size=${pageSize}`
+        const response = await instance.get(
+          `/RESTAURANT-SERVICE/api/v1/restaurants?page=${currentPage}&size=${pageSize}`
         );
         setRestaurants(response.data.restaurantsdto);
 
@@ -39,7 +40,6 @@ const RestauList = () => {
 
   return (
     <div className="main-container">
-      <Navbar></Navbar>
       <div className="head">Discover all the restaurants</div>
 
       <RestaurantList restaurants={restaurants} />

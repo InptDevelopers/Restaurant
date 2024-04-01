@@ -4,7 +4,7 @@ const Error403Page = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <img
-        src="/images/403.png"
+        src="../images/403.png"
         alt="403 Forbidden"
         className="w-40 h-auto mb-6"
       />

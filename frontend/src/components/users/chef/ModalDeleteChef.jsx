@@ -5,6 +5,8 @@ import {LockIcon} from './LockIcon.jsx';
 import {DeleteIcon} from "./DeleteIcon.jsx";
 import {PlusIcon} from "./PlusIcon.jsx";
 import axios from 'axios';
+import instance from "../../../../axios.js";
+
 
 const ModalDeleteChef = ({name,id,mutate}) => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -34,7 +36,7 @@ const ModalDeleteChef = ({name,id,mutate}) => {
                                 Cancel
                             </Button>
                             <Button color="primary" type='submit' onPress={async()=>{
-                                await axios.delete(`http://localhost:8082/api/v1/chefs/${id}`)
+                                await instance.delete(`/USERS-SERVICE/api/v1/chefs/${id}`)
                                 mutate()
                                 onClose()
                             }}>

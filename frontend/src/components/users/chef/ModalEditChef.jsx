@@ -4,6 +4,7 @@ import {MailIcon} from './MailIcon.jsx';
 import {LockIcon} from './LockIcon.jsx';
 import {PlusIcon} from "./PlusIcon.jsx";
 import {EditIcon} from './EditIcon.jsx';
+import instance from "../../../../axios.js";
 
 
 import axios from 'axios';
@@ -13,7 +14,7 @@ const ModalEditChef = ({id,mutate}) => {
   const [changed,setChanged]=useState(false)
     useEffect(()=>{
       const getChef=async()=>{
-        const res=await axios.get(`http://localhost:8082/api/v1/chefs/${id}`)
+        const res=await instance.get(`/USERS-SERVICE/api/v1/chefs/${id}`)
         const {name,email,bankAccount,commands}=res.data;
         console.log(res.data);
         setName(name)
@@ -36,7 +37,7 @@ const ModalEditChef = ({id,mutate}) => {
         }
         console.log(data);
         if(email&&name&&bankAccount){
-            const res=await axios.put(`http://localhost:8082/api/v1/chefs/${id}`,data)
+            const res=await instance.put(`/USERS-SERVICE/api/v1/chefs/${id}`,data)
             console.log(res);
             if(res.status==200){
                 mutate()
@@ -47,7 +48,7 @@ const ModalEditChef = ({id,mutate}) => {
     }
     const handleDeleteCommand=async(command)=>{
       console.log(command);
-      const res=await axios.delete(`http://localhost:8082/api/v1/chefs/${id}/commands/${command}`)
+      const res=await instance.delete(`/USERS-SERVICE/api/v1/chefs/${id}/commands/${command}`)
       console.log(res);
       if(res.status==204){
           mutate()

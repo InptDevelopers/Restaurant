@@ -5,6 +5,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import MenuCreationForm from "../../components/restaurantcomponents/Menu";
 import Restaurant from "../../components/restaurantcomponents/box";
+import instance from "../../../axios";
 const RestaurantDetails = () => {
   const { id } = useParams();
   const [menu, setMenu] = useState(null);
@@ -26,8 +27,8 @@ const RestaurantDetails = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/restaurants/menu/${id}?page=${currentPage}&size=${pageSize}`
+        const response = await instance.get(
+          `/RESTAURANT-SERVICE/api/v1/restaurants/menu/${id}?page=${currentPage}&size=${pageSize}`
         );
         setMenu(response.data);
         console.log(response.data);
@@ -42,37 +43,7 @@ const RestaurantDetails = () => {
       }
     };
 
-    //fetchMenu();
-    setMenu({items: [
-      {
-        id: 1,
-        nom: "ilyass",
-        prix: 1200
-      },
-      {
-        id: 1,
-        nom: "ilyass",
-        prix: 1200
-      },
-      {
-        id: 1,
-        nom: "ilyass",
-        prix: 1200
-      },
-      {
-        id: 1,
-        nom: "ilyass",
-        prix: 1200
-      },
-      {
-        id: 1,
-        nom: "ilyass",
-        prix: 1200
-      },
-    ]});
-    setCurrentPage(0);
-    setPageSize(5);
-    setTotalPages(1);
+    fetchMenu();
   }, [id, currentPage, pageSize]);
 
   return (

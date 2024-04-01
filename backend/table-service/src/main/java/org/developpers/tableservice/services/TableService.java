@@ -28,45 +28,42 @@ public class TableService implements TableServiceInterface {
 
     private final ZoneRepository zoneRepository;
 
-
     @Override
-    public TableDTO getTableById(Long id) throws TableNotFoundException{
+    public TableDTO getTableById(Long id) throws TableNotFoundException {
         ATable table = tableRepository.findById(id)
                 .orElseThrow(() -> new TableNotFoundException("Table not found with id: " + id));
         return tableMapper.fromTable(table);
     }
 
     @Override
-    public void deleteTable(Long id) throws TableNotFoundException{
+    public void deleteTable(Long id) throws TableNotFoundException {
         ATable table = tableRepository.findById(id)
                 .orElseThrow(() -> new TableNotFoundException("Table not found with id: " + id));
         tableRepository.delete(table);
     }
 
     @Override
-    public TableDTO updateTable(Long id, TableDTO tableDTO) throws TableNotFoundException{
+    public TableDTO updateTable(Long id, TableDTO tableDTO) throws TableNotFoundException {
         ATable existingTable = tableRepository.findById(id)
                 .orElseThrow(() -> new TableNotFoundException("Table not found with id: " + id));
         existingTable.setStatus(tableDTO.getStatus());
+        // existingTable.getReservationIds().addAll(tableDTO.getReservationsIds());
         ATable updatedTable = tableRepository.save(existingTable);
         return tableMapper.fromTable(updatedTable);
     }
 
-
-
-
     @Override
-    public Page<TableDTO> getAllTablesInZone(Long zoneId, int page, int size){
-       /* Zone zone = zoneRepository.findById(zoneId)
-                .orElseThrow(() -> new ZoneNotFoundException("Zone not found with id: " + zoneId));
-        */
-        Pageable pageable = PageRequest.of(page,size) ;
-        Page<ATable> tables = tableRepository.findByZoneId(zoneId,pageable);
+    public Page<TableDTO> getAllTablesInZone(Long zoneId, int page, int size) {
+        /*
+         * Zone zone = zoneRepository.findById(zoneId)
+         * .orElseThrow(() -> new ZoneNotFoundException("Zone not found with id: " +
+         * zoneId));
+         */
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ATable> tables = tableRepository.findByZoneId(zoneId, pageable);
 
         return tables.map(tableMapper::fromTable);
     }
-
-
 
     @Override
     public Page<TableDTO> getAllTablesByRestaurantId(Long restaurantId, int page, int size) {
@@ -80,22 +77,18 @@ public class TableService implements TableServiceInterface {
 
         return new PageImpl<>(allTables, zones.getPageable(), zones.getTotalElements());
     }
+
     @Override
     public List<TableDTO> getEmptytables(Long zoneId) {
 
-
-        List<ATable> tables = tableRepository.findByStatusAndZoneId(NOT_OCCUPIED,zoneId);
-
+        List<ATable> tables = tableRepository.findByStatusAndZoneId(NOT_OCCUPIED, zoneId);
 
         List<TableDTO> tableDTOS = new ArrayList<>();
 
         for (ATable table : tables) {
             tableDTOS.add(tableMapper.fromTable(table));
         }
-        return  tableDTOS;
+        return tableDTOS;
     }
-
-
-
 
 }
