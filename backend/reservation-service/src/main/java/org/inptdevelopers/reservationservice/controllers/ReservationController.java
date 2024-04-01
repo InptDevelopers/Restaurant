@@ -56,19 +56,13 @@ public class ReservationController {
     public ResponseEntity<List<ReservationDTO>> getAllReservationsByWaiterId(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestHeader("Authorization") String accessToken,
             @PathVariable Long idClient) {
-        List<ReservationDTO> reservations = reservationService.getAllReservationsByClientId(idClient,page, size);
+        List<ReservationDTO> reservations = reservationService.getAllReservationsByClientId(idClient,page, size,accessToken);
         return new ResponseEntity<>(reservations, HttpStatus.OK);
     }
 
-    @GetMapping("/waiter/{idWaiter}")
-    public ResponseEntity<List<ReservationDTO>> getAllReservationsByClientId(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @PathVariable Long idWaiter) {
-        List<ReservationDTO> reservations = reservationService.getAllReservationsByRestaurantId(idWaiter,page, size);
-        return new ResponseEntity<>(reservations, HttpStatus.OK);
-    }
+   
 /*
     @GetMapping("/{id}")
     public ResponseEntity<ReservationDTO> getReservationById(@PathVariable Long id) {
@@ -124,8 +118,8 @@ public class ReservationController {
         return new ResponseEntity<>(reservationid,HttpStatus.OK);
     }
     @PostMapping("/items")
-    public List<Items> getitems(@RequestBody List<Long> items){
-          return restaurantRestClient.getItems(items);
+    public List<Items> getitems(@RequestBody List<Long> items,@RequestHeader("Authorization") String accessToken){
+          return restaurantRestClient.getItems(items,accessToken);
     }
 
 }

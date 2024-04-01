@@ -42,48 +42,23 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
 
-    public List<ReservationDTO> getAllReservationsByRestaurantId(Long id, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        List<Reservation> reservations = reservationRepository.findByRestaurantId(id, pageable).getContent();
-        return reservations.stream()
-                .map(reservation -> reservationMapper.fromReservation(reservation))
-                .toList();
-    }
-/*
+ 
+
+   
 
     @Override
-    public List<ReservationDTO> getAllReservationsByWaiterId(Long idWaiter, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Reservation> reservationsPage = reservationRepository.findByWaiterId(idWaiter, pageable);
-        return reservationsPage.map(reservation -> reservationMapper.fromReservation(reservation))
-                .getContent();
-    }
-*/
-    @Override
-    public List<ReservationDTO> getAllReservationsByClientId(Long clientId, int page, int size) {
+    public List<ReservationDTO> getAllReservationsByClientId(Long clientId, int page, int size,String token) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Reservation> reservationsPage = reservationRepository.findByClientId(clientId, pageable);
-        return reservationsPage.map(reservation -> reservationMapper.fromReservation(reservation))
+        return reservationsPage.map(reservation -> reservationMapper.fromReservation(reservation,token))
                 .getContent();
     }
 
 
 
 
-    public ReservationDTO getReservationById(Long id) throws ReservationNotFoundException {
-        Reservation reservation = reservationRepository.findById(id)
-                .orElseThrow(() -> new ReservationNotFoundException("Reservation not found with id: "+ id));
-        return reservationMapper.fromReservation(reservation);
-    }
-
-    public ReservationDTO createReservation(ReservationRequestDTO reservationDTO) {
-
-        reservationDTO.setCharged(false);
-        Reservation reservation = reservationMapper.fromReservationRequestDTO(reservationDTO);
-        Reservation createdReservation = reservationRepository.save(reservation);
-        return reservationMapper.fromReservation(createdReservation);
-
-    }
+ 
+    
 
     @Override
     public Reservation reservationcreate(Long zoneId, String token, Long restaurantId, ReservationCreationDTO reservationCreationDTO) {

@@ -17,11 +17,11 @@ import java.util.List;
 @Service
 public class ReservationMapper {
     private final RestaurantRestClient restaurantRestClient;
-  public ReservationDTO fromReservation(Reservation reservation) {
+  public ReservationDTO fromReservation(Reservation reservation,String accestoken) {
         ReservationDTO reservationDTO = new ReservationDTO();
         BeanUtils.copyProperties(reservation, reservationDTO);
         reservationDTO.setTableId(reservation.getTableId());
-        reservationDTO.setItems(restaurantRestClient.getItems(reservation.getItemsId()));
+        reservationDTO.setItems(restaurantRestClient.getItems(reservation.getItemsId(),accestoken));
         return reservationDTO;
 
 
